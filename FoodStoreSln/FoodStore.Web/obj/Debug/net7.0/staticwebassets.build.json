@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "NZmCP8gh5RKrJqMBJeZwpeRoadyo5POv7kZa4PbyFDE=",
+  "Source": "FoodStore.Web",
+  "BasePath": "_content/FoodStore.Web",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
