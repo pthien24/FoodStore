@@ -6,7 +6,7 @@ namespace FoodStore.Web.Repository.Abstract
     {
         bool Add(Product p);
         //IQueryable<Product>? Products { get; }
-
         Task<PagedProductResult> GetProducts(string? tern, string? category, int page, int limit);
+
     }
 }

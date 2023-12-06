@@ -5,6 +5,7 @@ import { Route, Routes } from "react-router-dom";
 import DefaultLayout from "./containers/DefaultLayout";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import AdminLayout from "./containers/AdminLayout ";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path="/*" element={<DefaultLayout />}></Route>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/register" element={<Register />}></Route>
+        <Route path="/admin/*" element={<AdminLayout />}></Route>
       </Routes>
       {/* <Header />
       <Home />
