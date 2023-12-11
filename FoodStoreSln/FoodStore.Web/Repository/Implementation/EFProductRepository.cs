@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using System.Text;
+using FoodStore.Web.DTO;
 using FoodStore.Web.Models.Domain;
 using FoodStore.Web.Repository.Abstract;
 using Microsoft.EntityFrameworkCore;
@@ -15,15 +16,12 @@ namespace FoodStore.Web.Repository.Implementation
         {
             this._context = context;
         }
-
-        public IQueryable<Product>? Products => _context.Products;
-
-        public bool Add(Product p)
+        public async Task<bool> AddAsync(Product p)
         {
             try
             {
                 _context.Products.Add(p);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return true;
             }
             catch (Exception e)
@@ -32,42 +30,29 @@ namespace FoodStore.Web.Repository.Implementation
             }
         }
 
-        public async Task<PagedProductResult> GetProducts(string? searchTerm, string? Category ,  int page, int limit)
+        public async Task<IEnumerable<Product>> GetAllAsync()
         {
-            IQueryable<Product>? products =_context.Products;
+            return await _context.Products.ToListAsync();
+        }
 
-            if (!string.IsNullOrWhiteSpace(searchTerm))
+        public async Task<Product> GetByIdAsync(int id)
+        {
+            return await _context.Products.FindAsync(id);
+        }
+
+        public async Task<bool> UpdateAsync(Product p)
+        {
+            try
             {
-                searchTerm = searchTerm.Trim().ToLower();
-                products = products
-                    .Where(p => p.ProductName.ToLower().Contains(searchTerm)
-                                || p.Description.ToLower().Contains(searchTerm)
-                                || p.Category.ToLower().Contains(searchTerm));
+                _context.Products.Update(p);
+                await _context.SaveChangesAsync();
+                return true;
             }
-
-            if (!string.IsNullOrWhiteSpace(Category))
+            catch (Exception e)
             {
-                var categoryFilter = Category.Trim().ToLower();
-                products = products
-                    .Where(p => p.Category.ToLower() == categoryFilter);
+                // Log the exception or handle it appropriately
+                return false;
             }
-
-            var totalCount = await products.CountAsync();
-            var totalPages = (int)Math.Ceiling(totalCount / (double)limit);
-
-            var pagedProducts = await products
-                .Skip((page - 1) * limit)
-                .Take(limit)
-                .ToListAsync();
-
-            var pagedProductData = new PagedProductResult
-            {
-                Products = pagedProducts,
-                TotalCount = totalCount,
-                TotalPages = totalPages
-            };
-
-            return pagedProductData;
         }
     }
 }

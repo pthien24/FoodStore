@@ -1,24 +1,80 @@
 ﻿using FoodStore.Web.Models.Domain;
-using FoodStore.Web.Models.DTO;
+using FoodStore.Web.DTO;
 using FoodStore.Web.Repository.Abstract;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using System.Linq.Dynamic.Core;
+using System.Linq;
 
 namespace FoodStore.Web.Controllers
 {
-    [Route("api/[controller]/{action}")]
+    [Route("api/[controller]")]
     [ApiController]
     public class ProductController : ControllerBase
     {
+        private readonly DatabaseContext _context;
         private readonly IFileService _fileService;
         private readonly IProductRepository _productRepository;
-        public ProductController(IProductRepository productRepository,IFileService fs) 
+        private readonly ILogger<ProductController> _logger;
+        public ProductController(DatabaseContext context, IProductRepository productRepository,IFileService fs ,ILogger<ProductController> logger) 
         {
+            this._context = context;
             this._productRepository = productRepository;
             this._fileService = fs;
+            this._logger = logger;
         }
+        [HttpGet(Name = "GetProducts")]
+        [ResponseCache(Location = ResponseCacheLocation.Any, Duration = 60)]
+        public async Task<RestDTO<Product[]>> Get(
+            int pageIndex = 0,
+            int pageSize = 3,
+            string? sortColumn = "ProductName",
+            string? sortOrder = "ASC",
+            string? filterQuery = null)
+        {
+            var query = await _productRepository.GetAllAsync();
+            if (!string.IsNullOrEmpty(filterQuery))
+            {
+                query = query.Where(b => b.ProductName.Contains(filterQuery));
+            }
+
+            var recordcount = query.Count();
+            var queryableProducts = query.AsQueryable();
+            query = SortAndPaginateProducts(queryableProducts, sortColumn, sortOrder, pageIndex, pageSize);
+
+            return new RestDTO<Product[]>()
+            {
+                Data =  query.ToArray(),
+                PageIndex = pageIndex,
+                PageSize = pageSize,
+                RecordCount = recordcount,
+                Links = new List<LinkDTO>
+                {
+                    new LinkDTO(Url.Action(null ,"Product" ,null,Request.Scheme)!,"self","GET"),
+                }
+            };
+        }
+
+        private IQueryable<Product> SortAndPaginateProducts(
+            IQueryable<Product> products,
+            string sortColumn,
+            string sortOrder,
+            int pageIndex,
+            int pageSize)
+        {
+            // Apply sorting logic
+            products = products.OrderBy($"{sortColumn} {sortOrder}");
+
+            // Apply pagination
+            products = products.Skip(pageIndex * pageSize).Take(pageSize);
+
+            return products;
+        }
+
         [HttpPost]
-        public async Task<IActionResult>  Add([FromForm] Product p)
+        public async Task<IActionResult> Add([FromForm] Product p)
         {
             var status = new Status();
 
@@ -37,8 +93,8 @@ namespace FoodStore.Web.Controllers
                     p.ProductImage = fileResult.Item2;
                 }
 
-                var producResult = _productRepository.Add(p);
-                if (producResult)
+                var producResult = _productRepository.AddAsync(p);
+                if (await producResult)
                 {
                     status.StatusMessage = " added successfully";
                     status.StatusCode = 1;
@@ -51,29 +107,98 @@ namespace FoodStore.Web.Controllers
             }
             return Ok(status);
         }
-        [HttpGet]
-        //public Task<IActionResult> GetAll()
-        //{
-        //    var product = _productRepository.Products;
-        //    if (product.Any())
-        //    {
-        //        return Task.FromResult<IActionResult>(Ok(product));
-        //    }
-        //    else
-        //    {
-        //        return Task.FromResult<IActionResult>(NotFound("no product found"));
-        //    }
-        //}
 
-        [HttpGet]
-        public async Task<IActionResult> GetProducts(string? searchTerm, string? Category, int page = 1, int limit = 10)
+        [HttpGet("{id:int}", Name = "GetProductById")]
+        public async Task<IActionResult> GetProductById(int id)
         {
-            var productsdResult = await _productRepository.GetProducts(searchTerm, Category, page, limit);
+            var product = await _productRepository.GetByIdAsync(id);
 
-            // Add pagination headers to the response
-            Response.Headers.Add("X-Total-Count", productsdResult.TotalCount.ToString());
-            Response.Headers.Add("X-Total-Pages", productsdResult.TotalPages.ToString());
-            return Ok(productsdResult.Products);
+            if (product == null)
+            {
+                return NotFound(); // 404 Not Found if product with given ID is not found
+            }
+
+            var link = new LinkDTO(
+                Url.Link("GetProductById", new { id }),
+                "self",
+                "GET"
+            );
+
+            return Ok(new RestDTO<Product>
+            {
+                Data = product,
+                Links = new List<LinkDTO> { link }
+            });
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, [FromForm] Product updatedProduct)
+        {
+            var status = new Status();
+
+            if (!ModelState.IsValid)
+            {
+                status.StatusCode = 0;
+                status.StatusMessage = "Please pass a valid status";
+                return Ok(status);
+            }
+
+            try
+            {
+                var existingProduct = await _productRepository.GetByIdAsync(id);
+
+                if (existingProduct == null)
+                {
+                    status.StatusCode = 0;
+                    status.StatusMessage = "Product not found";
+                    return Ok(status);
+                }
+
+                // Update properties of existing product with new values
+                existingProduct.ProductName = updatedProduct.ProductName;
+                existingProduct.Description = updatedProduct.Description;
+                existingProduct.Category = updatedProduct.Category;
+                existingProduct.Price = updatedProduct.Price;
+                // Update other properties as needed...
+
+                if (updatedProduct.ImageFile != null)
+                {
+                    var fileResult = _fileService.SaveImage(updatedProduct.ImageFile);
+
+                    if (fileResult.Item1 == 1)
+                    {
+                        existingProduct.ProductImage = fileResult.Item2;
+                    }
+                }
+                else
+                {
+                    existingProduct.ProductImage = existingProduct.ProductImage;
+                }
+                // Call the update method from your repository
+                var updateResult = await _productRepository.UpdateAsync(existingProduct);
+
+                if (updateResult)
+                {
+                    status.StatusMessage = "Updated successfully";
+                    status.StatusCode = 1;
+                }
+                else
+                {
+                    status.StatusMessage = "Error on updating product";
+                    status.StatusCode = 0;
+                }
+
+                return Ok(status);
+            }
+            catch (Exception e)
+            {
+                // Log the exception if needed
+                status.StatusCode = 0;
+                status.StatusMessage = "Internal server error";
+                return Ok(status);
+            }
+        }
+
+
     }
 }

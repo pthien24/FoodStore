@@ -1,4 +1,4 @@
-﻿namespace FoodStore.Web.Models.DTO
+﻿namespace FoodStore.Web.DTO
 {
     public class Status
     {

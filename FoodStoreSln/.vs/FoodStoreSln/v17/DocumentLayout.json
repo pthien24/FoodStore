@@ -3,20 +3,8 @@
   "WorkspaceRootPath": "C:\\Users\\thienXwho\\Documents\\backendExam\\FoodStore\\FoodStoreSln\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{EE239445-9119-4314-889D-5BE3314C7133}|FoodStore.Web\\FoodStore.Web.csproj|c:\\users\\thienxwho\\documents\\backendexam\\foodstore\\foodstoresln\\foodstore.web\\models\\domain\\databasecontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EE239445-9119-4314-889D-5BE3314C7133}|FoodStore.Web\\FoodStore.Web.csproj|solutionrelative:foodstore.web\\models\\domain\\databasecontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EE239445-9119-4314-889D-5BE3314C7133}|FoodStore.Web\\FoodStore.Web.csproj|c:\\users\\thienxwho\\documents\\backendexam\\foodstore\\foodstoresln\\foodstore.web\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{EE239445-9119-4314-889D-5BE3314C7133}|FoodStore.Web\\FoodStore.Web.csproj|solutionrelative:foodstore.web\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EE239445-9119-4314-889D-5BE3314C7133}|FoodStore.Web\\FoodStore.Web.csproj|c:\\users\\thienxwho\\documents\\backendexam\\foodstore\\foodstoresln\\foodstore.web\\models\\domain\\order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EE239445-9119-4314-889D-5BE3314C7133}|FoodStore.Web\\FoodStore.Web.csproj|solutionrelative:foodstore.web\\models\\domain\\order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EE239445-9119-4314-889D-5BE3314C7133}|FoodStore.Web\\FoodStore.Web.csproj|c:\\users\\thienxwho\\documents\\backendexam\\foodstore\\foodstoresln\\foodstore.web\\models\\dto\\status.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EE239445-9119-4314-889D-5BE3314C7133}|FoodStore.Web\\FoodStore.Web.csproj|solutionrelative:foodstore.web\\models\\dto\\status.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{EE239445-9119-4314-889D-5BE3314C7133}|FoodStore.Web\\FoodStore.Web.csproj|c:\\users\\thienxwho\\documents\\backendexam\\foodstore\\foodstoresln\\foodstore.web\\controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EE239445-9119-4314-889D-5BE3314C7133}|FoodStore.Web\\FoodStore.Web.csproj|solutionrelative:foodstore.web\\controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{EE239445-9119-4314-889D-5BE3314C7133}|FoodStore.Web\\FoodStore.Web.csproj|c:\\users\\thienxwho\\documents\\backendexam\\foodstore\\foodstoresln\\foodstore.web\\repository\\implementation\\efproductrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -27,20 +15,12 @@
       "RelativeMoniker": "D:0:0:{EE239445-9119-4314-889D-5BE3314C7133}|FoodStore.Web\\FoodStore.Web.csproj|solutionrelative:foodstore.web\\repository\\abstract\\iproductrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EE239445-9119-4314-889D-5BE3314C7133}|FoodStore.Web\\FoodStore.Web.csproj|c:\\users\\thienxwho\\documents\\backendexam\\foodstore\\foodstoresln\\foodstore.web\\models\\domain\\cart.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EE239445-9119-4314-889D-5BE3314C7133}|FoodStore.Web\\FoodStore.Web.csproj|solutionrelative:foodstore.web\\models\\domain\\cart.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{EE239445-9119-4314-889D-5BE3314C7133}|FoodStore.Web\\FoodStore.Web.csproj|c:\\users\\thienxwho\\documents\\backendexam\\foodstore\\foodstoresln\\foodstore.web\\dto\\restdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EE239445-9119-4314-889D-5BE3314C7133}|FoodStore.Web\\FoodStore.Web.csproj|solutionrelative:foodstore.web\\dto\\restdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EE239445-9119-4314-889D-5BE3314C7133}|FoodStore.Web\\FoodStore.Web.csproj|c:\\users\\thienxwho\\documents\\backendexam\\foodstore\\foodstoresln\\foodstore.web\\models\\domain\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EE239445-9119-4314-889D-5BE3314C7133}|FoodStore.Web\\FoodStore.Web.csproj|solutionrelative:foodstore.web\\models\\domain\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EE239445-9119-4314-889D-5BE3314C7133}|FoodStore.Web\\FoodStore.Web.csproj|c:\\users\\thienxwho\\documents\\backendexam\\foodstore\\foodstoresln\\foodstore.web\\controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EE239445-9119-4314-889D-5BE3314C7133}|FoodStore.Web\\FoodStore.Web.csproj|solutionrelative:foodstore.web\\controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EE239445-9119-4314-889D-5BE3314C7133}|FoodStore.Web\\FoodStore.Web.csproj|c:\\users\\thienxwho\\documents\\backendexam\\foodstore\\foodstoresln\\foodstore.web\\repository\\implementation\\fileservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EE239445-9119-4314-889D-5BE3314C7133}|FoodStore.Web\\FoodStore.Web.csproj|solutionrelative:foodstore.web\\repository\\implementation\\fileservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{EE239445-9119-4314-889D-5BE3314C7133}|FoodStore.Web\\FoodStore.Web.csproj|c:\\users\\thienxwho\\documents\\backendexam\\foodstore\\foodstoresln\\foodstore.web\\dto\\linkdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EE239445-9119-4314-889D-5BE3314C7133}|FoodStore.Web\\FoodStore.Web.csproj|solutionrelative:foodstore.web\\dto\\linkdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -50,7 +30,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 9,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -58,124 +38,65 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "C:\\Users\\thienXwho\\Documents\\backendExam\\FoodStore\\FoodStoreSln\\FoodStore.Web\\appsettings.json",
-              "RelativeDocumentMoniker": "FoodStore.Web\\appsettings.json",
-              "ToolTip": "C:\\Users\\thienXwho\\Documents\\backendExam\\FoodStore\\FoodStoreSln\\FoodStore.Web\\appsettings.json",
-              "RelativeToolTip": "FoodStore.Web\\appsettings.json",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAADAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2023-12-05T17:09:23.055Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "Cart.cs",
-              "DocumentMoniker": "C:\\Users\\thienXwho\\Documents\\backendExam\\FoodStore\\FoodStoreSln\\FoodStore.Web\\Models\\Domain\\Cart.cs",
-              "RelativeDocumentMoniker": "FoodStore.Web\\Models\\Domain\\Cart.cs",
-              "ToolTip": "C:\\Users\\thienXwho\\Documents\\backendExam\\FoodStore\\FoodStoreSln\\FoodStore.Web\\Models\\Domain\\Cart.cs",
-              "RelativeToolTip": "FoodStore.Web\\Models\\Domain\\Cart.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAAAAAAAA",
+              "DocumentIndex": 3,
+              "Title": "RestDTO.cs",
+              "DocumentMoniker": "C:\\Users\\thienXwho\\Documents\\backendExam\\FoodStore\\FoodStoreSln\\FoodStore.Web\\DTO\\RestDTO.cs",
+              "RelativeDocumentMoniker": "FoodStore.Web\\DTO\\RestDTO.cs",
+              "ToolTip": "C:\\Users\\thienXwho\\Documents\\backendExam\\FoodStore\\FoodStoreSln\\FoodStore.Web\\DTO\\RestDTO.cs",
+              "RelativeToolTip": "FoodStore.Web\\DTO\\RestDTO.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2023-12-05T16:21:48.494Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Order.cs",
-              "DocumentMoniker": "C:\\Users\\thienXwho\\Documents\\backendExam\\FoodStore\\FoodStoreSln\\FoodStore.Web\\Models\\Domain\\Order.cs",
-              "RelativeDocumentMoniker": "FoodStore.Web\\Models\\Domain\\Order.cs",
-              "ToolTip": "C:\\Users\\thienXwho\\Documents\\backendExam\\FoodStore\\FoodStoreSln\\FoodStore.Web\\Models\\Domain\\Order.cs",
-              "RelativeToolTip": "FoodStore.Web\\Models\\Domain\\Order.cs",
-              "ViewState": "AQIAACsAAAAAAAAAAAAywCcAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2023-12-05T16:15:30.094Z"
+              "WhenOpened": "2023-12-10T08:29:00.546Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "EFProductRepository.cs",
-              "DocumentMoniker": "C:\\Users\\thienXwho\\Documents\\backendExam\\FoodStore\\FoodStoreSln\\FoodStore.Web\\Repository\\Implementation\\EFProductRepository.cs",
-              "RelativeDocumentMoniker": "FoodStore.Web\\Repository\\Implementation\\EFProductRepository.cs",
-              "ToolTip": "C:\\Users\\thienXwho\\Documents\\backendExam\\FoodStore\\FoodStoreSln\\FoodStore.Web\\Repository\\Implementation\\EFProductRepository.cs",
-              "RelativeToolTip": "FoodStore.Web\\Repository\\Implementation\\EFProductRepository.cs",
-              "ViewState": "AQIAABoAAAAAAAAAAAAwwAAAAAAAAAAA",
+              "Title": "LinkDTO.cs",
+              "DocumentMoniker": "C:\\Users\\thienXwho\\Documents\\backendExam\\FoodStore\\FoodStoreSln\\FoodStore.Web\\DTO\\LinkDTO.cs",
+              "RelativeDocumentMoniker": "FoodStore.Web\\DTO\\LinkDTO.cs",
+              "ToolTip": "C:\\Users\\thienXwho\\Documents\\backendExam\\FoodStore\\FoodStoreSln\\FoodStore.Web\\DTO\\LinkDTO.cs",
+              "RelativeToolTip": "FoodStore.Web\\DTO\\LinkDTO.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2023-12-05T17:04:12.819Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "Product.cs",
-              "DocumentMoniker": "C:\\Users\\thienXwho\\Documents\\backendExam\\FoodStore\\FoodStoreSln\\FoodStore.Web\\Models\\Domain\\Product.cs",
-              "RelativeDocumentMoniker": "FoodStore.Web\\Models\\Domain\\Product.cs",
-              "ToolTip": "C:\\Users\\thienXwho\\Documents\\backendExam\\FoodStore\\FoodStoreSln\\FoodStore.Web\\Models\\Domain\\Product.cs",
-              "RelativeToolTip": "FoodStore.Web\\Models\\Domain\\Product.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABcAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2023-12-05T15:10:19.52Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Status.cs",
-              "DocumentMoniker": "C:\\Users\\thienXwho\\Documents\\backendExam\\FoodStore\\FoodStoreSln\\FoodStore.Web\\Models\\DTO\\Status.cs",
-              "RelativeDocumentMoniker": "FoodStore.Web\\Models\\DTO\\Status.cs",
-              "ToolTip": "C:\\Users\\thienXwho\\Documents\\backendExam\\FoodStore\\FoodStoreSln\\FoodStore.Web\\Models\\DTO\\Status.cs",
-              "RelativeToolTip": "FoodStore.Web\\Models\\DTO\\Status.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAAAXAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2023-12-02T18:24:22.762Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "IProductRepository.cs",
-              "DocumentMoniker": "C:\\Users\\thienXwho\\Documents\\backendExam\\FoodStore\\FoodStoreSln\\FoodStore.Web\\Repository\\Abstract\\IProductRepository.cs",
-              "RelativeDocumentMoniker": "FoodStore.Web\\Repository\\Abstract\\IProductRepository.cs",
-              "ToolTip": "C:\\Users\\thienXwho\\Documents\\backendExam\\FoodStore\\FoodStoreSln\\FoodStore.Web\\Repository\\Abstract\\IProductRepository.cs",
-              "RelativeToolTip": "FoodStore.Web\\Repository\\Abstract\\IProductRepository.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAAwAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2023-12-02T17:54:47.121Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "FileService.cs",
-              "DocumentMoniker": "C:\\Users\\thienXwho\\Documents\\backendExam\\FoodStore\\FoodStoreSln\\FoodStore.Web\\Repository\\Implementation\\FileService.cs",
-              "RelativeDocumentMoniker": "FoodStore.Web\\Repository\\Implementation\\FileService.cs",
-              "ToolTip": "C:\\Users\\thienXwho\\Documents\\backendExam\\FoodStore\\FoodStoreSln\\FoodStore.Web\\Repository\\Implementation\\FileService.cs",
-              "RelativeToolTip": "FoodStore.Web\\Repository\\Implementation\\FileService.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAACoAAAAhAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2023-12-02T18:25:21.556Z"
+              "WhenOpened": "2023-12-10T08:28:55.641Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "DatabaseContext.cs",
-              "DocumentMoniker": "C:\\Users\\thienXwho\\Documents\\backendExam\\FoodStore\\FoodStoreSln\\FoodStore.Web\\Models\\Domain\\DatabaseContext.cs",
-              "RelativeDocumentMoniker": "FoodStore.Web\\Models\\Domain\\DatabaseContext.cs",
-              "ToolTip": "C:\\Users\\thienXwho\\Documents\\backendExam\\FoodStore\\FoodStoreSln\\FoodStore.Web\\Models\\Domain\\DatabaseContext.cs",
-              "RelativeToolTip": "FoodStore.Web\\Models\\Domain\\DatabaseContext.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2023-12-03T05:30:25.664Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
               "Title": "ProductController.cs",
               "DocumentMoniker": "C:\\Users\\thienXwho\\Documents\\backendExam\\FoodStore\\FoodStoreSln\\FoodStore.Web\\Controllers\\ProductController.cs",
               "RelativeDocumentMoniker": "FoodStore.Web\\Controllers\\ProductController.cs",
               "ToolTip": "C:\\Users\\thienXwho\\Documents\\backendExam\\FoodStore\\FoodStoreSln\\FoodStore.Web\\Controllers\\ProductController.cs",
               "RelativeToolTip": "FoodStore.Web\\Controllers\\ProductController.cs",
-              "ViewState": "AQIAABEAAAAAAAAAAAAowEYAAABRAAAA",
+              "ViewState": "AQIAAK4AAAAAAAAAAAAgwMIAAAAuAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2023-12-03T06:29:47.078Z"
+              "WhenOpened": "2023-12-10T07:52:10.491Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "IProductRepository.cs",
+              "DocumentMoniker": "C:\\Users\\thienXwho\\Documents\\backendExam\\FoodStore\\FoodStoreSln\\FoodStore.Web\\Repository\\Abstract\\IProductRepository.cs",
+              "RelativeDocumentMoniker": "FoodStore.Web\\Repository\\Abstract\\IProductRepository.cs",
+              "ToolTip": "C:\\Users\\thienXwho\\Documents\\backendExam\\FoodStore\\FoodStoreSln\\FoodStore.Web\\Repository\\Abstract\\IProductRepository.cs",
+              "RelativeToolTip": "FoodStore.Web\\Repository\\Abstract\\IProductRepository.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2023-12-09T07:30:59.602Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "EFProductRepository.cs",
+              "DocumentMoniker": "C:\\Users\\thienXwho\\Documents\\backendExam\\FoodStore\\FoodStoreSln\\FoodStore.Web\\Repository\\Implementation\\EFProductRepository.cs",
+              "RelativeDocumentMoniker": "FoodStore.Web\\Repository\\Implementation\\EFProductRepository.cs",
+              "ToolTip": "C:\\Users\\thienXwho\\Documents\\backendExam\\FoodStore\\FoodStoreSln\\FoodStore.Web\\Repository\\Implementation\\EFProductRepository.cs",
+              "RelativeToolTip": "FoodStore.Web\\Repository\\Implementation\\EFProductRepository.cs",
+              "ViewState": "AQIAAAsAAAAAAAAAAAAtwDEAAAANAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2023-12-05T17:04:12.819Z",
+              "EditorCaption": ""
             }
           ]
         }

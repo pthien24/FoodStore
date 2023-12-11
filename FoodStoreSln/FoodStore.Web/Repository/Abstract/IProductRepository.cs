@@ -1,12 +1,13 @@
-﻿using FoodStore.Web.Models.Domain;
+﻿using FoodStore.Web.DTO;
+using FoodStore.Web.Models.Domain;
 
 namespace FoodStore.Web.Repository.Abstract
 {
     public interface IProductRepository
     {
-        bool Add(Product p);
-        //IQueryable<Product>? Products { get; }
-        Task<PagedProductResult> GetProducts(string? tern, string? category, int page, int limit);
-
+        Task<bool> AddAsync(Product p);
+        Task<IEnumerable<Product>> GetAllAsync();
+        Task<Product> GetByIdAsync(int id);
+        Task<bool> UpdateAsync(Product p);
     }
 }
