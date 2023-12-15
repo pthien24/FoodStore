@@ -10,7 +10,7 @@ const ListProduct: React.FC<ListProductProps> = ({ products, showProduct }) => {
   return (
     <>
       <div className="row product-lists">
-        {products.map((data) => (
+        {/* {products.map((data) => (
           <div key={data.id} className="col-lg-4 col-md-6 text-center">
             <div className="single-product-item">
               <div className="product-image">
@@ -33,7 +33,7 @@ const ListProduct: React.FC<ListProductProps> = ({ products, showProduct }) => {
               </button>
             </div>
           </div>
-        ))}
+        ))} */}
       </div>
       {/* Display the cart quantity in your UI */}
     </>

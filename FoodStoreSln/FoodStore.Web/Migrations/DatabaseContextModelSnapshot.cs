@@ -125,6 +125,9 @@ namespace FoodStore.Web.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Tags")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("Products");

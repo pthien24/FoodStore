@@ -32,24 +32,39 @@ namespace FoodStore.Web.Controllers
             int pageSize = 3,
             string? sortColumn = "ProductName",
             string? sortOrder = "ASC",
-            string? filterQuery = null)
+            string? filterQuery = null,
+            string? category = null,
+            string? tag = null
+            )
         {
             var query = await _productRepository.GetAllAsync();
             if (!string.IsNullOrEmpty(filterQuery))
             {
                 query = query.Where(b => b.ProductName.Contains(filterQuery));
             }
-
+            if (!string.IsNullOrEmpty(category))
+            {
+                query = query.Where(b => b.Category.Contains(category));
+            }
+            if (!string.IsNullOrEmpty(tag))
+            {
+                if (Enum.TryParse<ProductTag>(tag, out var tagEnum))
+                {
+                    query = query.Where(b => b.Tags == tagEnum);
+                }
+            }
             var recordcount = query.Count();
+            var totalPages = (int)Math.Ceiling((double)recordcount / pageSize);
             var queryableProducts = query.AsQueryable();
             query = SortAndPaginateProducts(queryableProducts, sortColumn, sortOrder, pageIndex, pageSize);
-
+            
             return new RestDTO<Product[]>()
             {
                 Data =  query.ToArray(),
                 PageIndex = pageIndex,
                 PageSize = pageSize,
                 RecordCount = recordcount,
+                TotalPage = totalPages,
                 Links = new List<LinkDTO>
                 {
                     new LinkDTO(Url.Action(null ,"Product" ,null,Request.Scheme)!,"self","GET"),
@@ -159,7 +174,7 @@ namespace FoodStore.Web.Controllers
                 existingProduct.Description = updatedProduct.Description;
                 existingProduct.Category = updatedProduct.Category;
                 existingProduct.Price = updatedProduct.Price;
-                // Update other properties as needed...
+                existingProduct.Tags = updatedProduct.Tags;
 
                 if (updatedProduct.ImageFile != null)
                 {
@@ -199,6 +214,39 @@ namespace FoodStore.Web.Controllers
             }
         }
 
+        [HttpGet("categories", Name = "GetCategories")]
+        public async Task<ActionResult<RestDTO<string[]>>> GetCategories()
+        {
+            var products = await _productRepository.GetAllAsync();
+            var categories = products
+                .Select(p => p.Category)
+                .Distinct()
+                .ToArray();
 
+
+            return Ok(new RestDTO<string[]>
+            {
+                Data = categories,
+                Links = new List<LinkDTO>
+                {
+                    new LinkDTO(Url.Action(null, "Product", null, Request.Scheme)!, "self", "GET"),
+                }
+            });
+        }
+
+        [HttpGet("tags", Name = "GetTags")]
+        public ActionResult<RestDTO<string[]>> GetTags()
+        {
+            var tags = Enum.GetNames(typeof(ProductTag));
+
+            return Ok(new RestDTO<string[]>
+            {
+                Data = tags,
+                Links = new List<LinkDTO>
+                {
+                    new LinkDTO(Url.Action(null, "Product", null, Request.Scheme)!, "self", "GET"),
+                }
+            });
+        }
     }
 }

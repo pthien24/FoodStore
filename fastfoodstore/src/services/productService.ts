@@ -3,26 +3,51 @@ import ResponseWrapper from "./responseWrapper";
 
 export interface IProduct {
   id: number;
-  name: string;
-  price: number;
+  productName: string;
   description: string;
-  image: string;
-  category_id: number;
-  created_at: string;
-  updated_at: string;
+  price: number;
+  category: string;
+  productImage: string;
 }
-const list = (categoryId: number | null, searchTerm: string, page: number) =>
-  api.get<ResponseWrapper<IProduct[]>>(`${api.url.product}`, {
-    params: {
-      category_id: categoryId,
-      search_term: searchTerm,
-      page: page,
-    },
-  });
-const listHome = () =>
+const list = (
+  filterQuery: string,
+  pageIndex: number,
+  pageSize: number,
+  sortColumn: string,
+  sortOrder: string,
+  category: string
+) =>
   api
-    .get<ResponseWrapper<IProduct[]>>(`${api.url.product}`)
+    .get<ResponseWrapper<IProduct[]>>(`${api.url.product}`, {
+      params: {
+        filterQuery,
+        pageIndex,
+        pageSize,
+        sortColumn,
+        sortOrder,
+        category,
+      },
+    })
+    .then((response) => response);
+
+const listHome = (tag: string) =>
+  api
+    .get<ResponseWrapper<IProduct[]>>(`${api.url.product}`, {
+      params: {
+        tag,
+      },
+    })
     .then((res) => res.data);
+const categories = () =>
+  api
+    .get<ResponseWrapper<any>>(`${api.url.product}/categories`, {})
+    .then((response) => response.data);
+
+const getproduct = (id: number) =>
+  api
+    .get<ResponseWrapper<IProduct>>(`${api.url.product}/${id}`)
+    .then((res) => res);
+
 const get = (id: number) =>
   api
     .get<ResponseWrapper<IProduct>>(`${api.url.product}/${id}`)
@@ -42,6 +67,8 @@ const remove = (id: number) =>
 const productService = {
   listHome,
   list,
+  getproduct,
+  categories,
   get,
   add,
   update,

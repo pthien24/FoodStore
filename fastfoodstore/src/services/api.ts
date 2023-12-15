@@ -1,8 +1,8 @@
 import axios from "axios";
 import store, { RootState } from "../store";
 const url = {
-  baseUrl: "http://127.0.0.1:8000/api",
-  product: "/products",
+  baseUrl: "http://localhost:5068/api",
+  product: "/Product",
   category: "/category",
   login: "/member/login",
   member: "/member",

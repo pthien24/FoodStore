@@ -11,11 +11,16 @@ const Menu: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [products, setProducts] = useState<IProduct[]>([]);
-  const [categoryId, setCategoryId] = useState<number | null>(null);
+  const [tag] = useState(null);
+  const [currentPage, setCurrentPage] = useState(0);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [page, setPage] = useState<number>(1);
-  const [totalPages, setTotalPages] = useState<number>(0);
-
+  const [productsPerPage] = useState(10);
+  const [totalPages, setTotalPages] = useState(0);
+  const [categories, setCategories] = useState<string[]>([]);
+  const [category, setCategory] = useState("");
+  const [sortKey, setSortKey] = useState("ProductName");
+  const [sortOrder, setSortOrder] = useState("ASC");
   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
   };
@@ -24,22 +29,34 @@ const Menu: React.FC = () => {
     setPage(newPage);
   };
 
-  const handleCategoryChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    setCategoryId(Number(event.target.value));
-  };
-
-  useEffect(() => {
-    productService.list(categoryId, searchTerm, page).then((res) => {
-      setProducts(res.data.data);
-      setTotalPages(res.data.last_page);
-    });
-  }, [categoryId, searchTerm, page]);
-
   const showProduct = (e: React.MouseEvent, id: number) => {
     e.preventDefault();
     navigate(`../menu/${id}`);
   };
-
+  const fetchData = async () => {
+    try {
+      const response = await productService.list(
+        searchTerm,
+        currentPage,
+        productsPerPage,
+        sortKey,
+        sortOrder,
+        category
+      );
+      setProducts(response.data.data);
+      setTotalPages(response.data.totalPage);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  const fetchCategories = async () => {
+    const response = await productService.categories();
+    setCategories(response.data);
+  };
+  useEffect(() => {
+    fetchData();
+    fetchCategories();
+  }, [searchTerm, currentPage, sortKey, sortOrder, category]);
   return (
     <>
       <Breadcrumb title={"Menu"} />
@@ -48,10 +65,6 @@ const Menu: React.FC = () => {
           <div className="row">
             <div className="col-md-12">
               <div className="product-filters">
-                <select onChange={handleCategoryChange}>
-                  <option value="">Tất cả danh mục</option>
-                  <ListCategory />
-                </select>
                 <input
                   type="text"
                   placeholder="Tìm kiếm sản phẩm"
@@ -67,8 +80,8 @@ const Menu: React.FC = () => {
                 <Item
                   key={data.id}
                   id={data.id}
-                  title={data.name}
-                  image={data.image}
+                  title={data.productName}
+                  image={data.productImage}
                   price={data.price}
                   showProduct={showProduct} // Pass the showProduct function as a prop
                 />

@@ -19,5 +19,14 @@ namespace FoodStore.Web.Models.Domain
         public string? ProductImage { get; set; }
         [NotMapped]
         public IFormFile? ImageFile { get; set; }
+        public ProductTag Tags { get; set; }
+        [NotMapped]
+        public string TagsDisplayName => Enum.GetName(typeof(ProductTag), Tags);
+    }
+    public enum ProductTag
+    {
+        New,
+        HotSale,
+        Normal
     }
 }

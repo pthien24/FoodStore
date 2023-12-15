@@ -21,18 +21,18 @@ const Product = () => {
   }, [id, navigate]);
   const handleAddToCart = () => {
     if (product) {
-      dispatch(
-        addToCart({
-          id: product.id,
-          title: product.name,
-          price: product.price,
-          description: product.description,
-          image: product.image,
-          category_id: product.category_id,
-          created_at: product.created_at,
-          updated_at: product.updated_at,
-        })
-      );
+      // dispatch(
+      //   addToCart({
+      //     id: product.id,
+      //     title: product.name,
+      //     price: product.price,
+      //     description: product.description,
+      //     image: product.image,
+      //     category_id: product.category_id,
+      //     created_at: product.created_at,
+      //     updated_at: product.updated_at,
+      //   })
+      // );
       toast.success("Added to Cart Successfully");
     }
   };
@@ -57,26 +57,26 @@ const Product = () => {
               <div className="col-md-5">
                 <div className="single-product-img">
                   <img
-                    src={`http://127.0.0.1:8000/storage/${product?.image}`}
+                    src={`http://localhost:5068/resources/${product?.productImage}`}
                     alt=""
                   />
                 </div>
               </div>
               <div className="col-md-7">
                 <div className="single-product-content">
-                  <h3>{product?.name}</h3>
+                  <h3>{product?.productName}</h3>
                   <p className="single-product-pricing">${id}</p>
                   <p>{product?.description}</p>
                   <div className="single-product-form">
-                    {/* <form action="index.html">
+                    <form action="index.html">
                       <input type="number" value={1} />
-                    </form> */}
+                    </form>
                     <button onClick={handleAddToCart}>
                       <i className="fas fa-shopping-cart" /> Add to Cart
                     </button>
                     <p>
                       <strong>Categories: </strong>
-                      {product?.category_id}
+                      {product?.category}
                     </p>
                   </div>
                   <h4>Share:</h4>

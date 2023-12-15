@@ -5,7 +5,7 @@
 namespace FoodStore.Web.Migrations
 {
     /// <inheritdoc />
-    public partial class NewOrderCart : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -30,6 +30,24 @@ namespace FoodStore.Web.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Orders", x => x.OrderID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Products",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ProductName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(8,2)", nullable: false),
+                    Category = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ProductImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Tags = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Products", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -77,6 +95,9 @@ namespace FoodStore.Web.Migrations
 
             migrationBuilder.DropTable(
                 name: "Orders");
+
+            migrationBuilder.DropTable(
+                name: "Products");
         }
     }
 }

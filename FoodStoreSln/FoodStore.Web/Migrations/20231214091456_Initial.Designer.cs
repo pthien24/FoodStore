@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FoodStore.Web.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20231205174444_NewOrderCart")]
-    partial class NewOrderCart
+    [Migration("20231214091456_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -127,6 +127,9 @@ namespace FoodStore.Web.Migrations
                     b.Property<string>("ProductName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Tags")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

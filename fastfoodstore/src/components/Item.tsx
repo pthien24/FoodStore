@@ -18,7 +18,7 @@ function Item({ id, title, image, price, showProduct }: ItemProps) {
       <div className="single-product-item">
         <div className="product-image">
           <a href="single-product.html" onClick={(e) => showProduct(e, id)}>
-            <img src={`http://127.0.0.1:8000/storage/${image}`} alt={title} />
+            <img src={`http://localhost:5068/resources/${image}`} alt={title} />
           </a>
         </div>
         <h3>{title}</h3>

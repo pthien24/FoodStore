@@ -15,32 +15,18 @@ const Home = () => {
   const navigate = useNavigate();
 
   const [products, setProducts] = useState<IProduct[]>([]);
+  const [tag] = useState("0");
   const showProduct = (e: React.MouseEvent, id: number) => {
     e.preventDefault();
     navigate(`../menu/${id}`);
   };
   const fetchProducts = async () => {
-    try {
-      const res = await productService.listHome();
-      setProducts(res.data);
-    } catch (error: unknown) {
-      if (error instanceof AxiosError) {
-        if (error.response?.status === 429) {
-          // Check the response status code
-          setTimeout(fetchProducts, 5000); // Retry after 5 seconds
-        } else {
-          // Handle other Axios errors
-          console.error("Axios error while fetching products:", error);
-        }
-      } else {
-        // Handle unknown error type
-        console.error("Unknown error type:", error);
-      }
-    }
+    const res = await productService.listHome(tag);
+    setProducts(res.data);
   };
   useEffect(() => {
     fetchProducts();
-  }, []);
+  }, [tag]);
   return (
     <>
       <Carousel>
@@ -171,12 +157,12 @@ const Home = () => {
             </div>
           </div>
           <div className="row">
-            {products.slice(0, 3).map((data) => (
+            {products.map((data) => (
               <Item
                 key={data.id}
                 id={data.id}
-                title={data.name}
-                image={data.image}
+                title={data.productName}
+                image={data.productImage}
                 price={data.price}
                 showProduct={showProduct} // Pass the showProduct function as a prop
               />

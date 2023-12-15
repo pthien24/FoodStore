@@ -164,13 +164,13 @@ const Page = () => {
                                 <p>Phone Number: {order.phone_number}</p>
 
                                 <h3>Items</h3>
-                                {order.items.map((item) => (
+                                {/* {order.items.map((item) => (
                                   <div key={item.id}>
                                     <p>Product: {item.product.name}</p>
                                     <p>Quantity: {item.quantity}</p>
                                     <p>Price: ${item.price}</p>
                                   </div>
-                                ))}
+                                ))} */}
                               </div>
                             </div>
                           </div>
