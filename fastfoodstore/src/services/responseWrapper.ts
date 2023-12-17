@@ -7,5 +7,7 @@ type ResponseWrapper<T> = {
   recordCount: number;
   totalPage: number;
   error: string;
+  statusCode: number;
+  statusMessage: string;
 };
 export default ResponseWrapper;

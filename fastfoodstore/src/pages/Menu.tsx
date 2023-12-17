@@ -18,7 +18,7 @@ const Menu: React.FC = () => {
   const [productsPerPage] = useState(10);
   const [totalPages, setTotalPages] = useState(0);
   const [categories, setCategories] = useState<string[]>([]);
-  const [category, setCategory] = useState("");
+  const [categoryid, setCategory] = useState(null);
   const [sortKey, setSortKey] = useState("ProductName");
   const [sortOrder, setSortOrder] = useState("ASC");
   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -41,7 +41,7 @@ const Menu: React.FC = () => {
         productsPerPage,
         sortKey,
         sortOrder,
-        category
+        categoryid
       );
       setProducts(response.data.data);
       setTotalPages(response.data.totalPage);
@@ -56,7 +56,7 @@ const Menu: React.FC = () => {
   useEffect(() => {
     fetchData();
     fetchCategories();
-  }, [searchTerm, currentPage, sortKey, sortOrder, category]);
+  }, [searchTerm, currentPage, sortKey, sortOrder, categoryid]);
   return (
     <>
       <Breadcrumb title={"Menu"} />

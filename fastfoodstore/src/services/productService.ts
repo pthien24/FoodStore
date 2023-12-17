@@ -15,7 +15,7 @@ const list = (
   pageSize: number,
   sortColumn: string,
   sortOrder: string,
-  category: string
+  categoryid: null
 ) =>
   api
     .get<ResponseWrapper<IProduct[]>>(`${api.url.product}`, {
@@ -25,7 +25,7 @@ const list = (
         pageSize,
         sortColumn,
         sortOrder,
-        category,
+        categoryid,
       },
     })
     .then((response) => response);

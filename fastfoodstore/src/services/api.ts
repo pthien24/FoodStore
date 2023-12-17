@@ -3,7 +3,7 @@ import store, { RootState } from "../store";
 const url = {
   baseUrl: "http://localhost:5068/api",
   product: "/Product",
-  category: "/category",
+  category: "/Category",
   login: "/member/login",
   member: "/member",
   purchase: "/purchase",

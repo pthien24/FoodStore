@@ -48,6 +48,23 @@ namespace FoodStore.Web.Migrations
                     b.ToTable("CartItem");
                 });
 
+            modelBuilder.Entity("FoodStore.Web.Models.Domain.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categories");
+                });
+
             modelBuilder.Entity("FoodStore.Web.Models.Domain.Order", b =>
                 {
                     b.Property<int>("OrderID")
@@ -107,10 +124,6 @@ namespace FoodStore.Web.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Category")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -119,18 +132,31 @@ namespace FoodStore.Web.Migrations
                         .HasColumnType("decimal(8,2)");
 
                     b.Property<string>("ProductImage")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ProductName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Tags")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("FoodStore.Web.Models.Domain.ProductCategory", b =>
+                {
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProductId", "CategoryId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("ProductCategories");
                 });
 
             modelBuilder.Entity("FoodStore.Web.Models.Domain.CartItem", b =>
@@ -148,9 +174,38 @@ namespace FoodStore.Web.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("FoodStore.Web.Models.Domain.ProductCategory", b =>
+                {
+                    b.HasOne("FoodStore.Web.Models.Domain.Category", "Category")
+                        .WithMany("ProductCategories")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FoodStore.Web.Models.Domain.Product", "Product")
+                        .WithMany("ProductCategories")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("FoodStore.Web.Models.Domain.Category", b =>
+                {
+                    b.Navigation("ProductCategories");
+                });
+
             modelBuilder.Entity("FoodStore.Web.Models.Domain.Order", b =>
                 {
                     b.Navigation("Items");
+                });
+
+            modelBuilder.Entity("FoodStore.Web.Models.Domain.Product", b =>
+                {
+                    b.Navigation("ProductCategories");
                 });
 #pragma warning restore 612, 618
         }

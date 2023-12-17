@@ -1,9 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "ZvzXY1NaGZ6VVMorquqgRo8nXnb86EtXTdzW/Gb77TCxkN6eXOI5nzT07C/4GWXGMCbGlQzxOx2/Dowuj9pyQQ==",
+  "dgSpecHash": "pYKTKkaHfpCI/0nVBx74Y427SmtqP2HWvvv7xERBuRULNv3QIeIFk7T9ghIoYaFyNYOoi/nB2/M0n3Gl5RA5ZA==",
   "success": true,
   "projectFilePath": "C:\\Users\\thienXwho\\Documents\\backendExam\\FoodStore\\FoodStoreSln\\FoodStore.Web\\FoodStore.Web.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\thienXwho\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
+    "C:\\Users\\thienXwho\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\11.0.0\\automapper.extensions.microsoft.dependencyinjection.11.0.0.nupkg.sha512",
     "C:\\Users\\thienXwho\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\thienXwho\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",
     "C:\\Users\\thienXwho\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
@@ -13,7 +15,7 @@
     "C:\\Users\\thienXwho\\.nuget\\packages\\microsoft.aspnetcore.http.features\\2.1.1\\microsoft.aspnetcore.http.features.2.1.1.nupkg.sha512",
     "C:\\Users\\thienXwho\\.nuget\\packages\\microsoft.aspnetcore.openapi\\7.0.14\\microsoft.aspnetcore.openapi.7.0.14.nupkg.sha512",
     "C:\\Users\\thienXwho\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\1.1.1\\microsoft.bcl.asyncinterfaces.1.1.1.nupkg.sha512",
-    "C:\\Users\\thienXwho\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
+    "C:\\Users\\thienXwho\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\thienXwho\\.nuget\\packages\\microsoft.data.sqlclient\\5.1.1\\microsoft.data.sqlclient.5.1.1.nupkg.sha512",
     "C:\\Users\\thienXwho\\.nuget\\packages\\microsoft.data.sqlclient.sni.runtime\\5.1.0\\microsoft.data.sqlclient.sni.runtime.5.1.0.nupkg.sha512",
     "C:\\Users\\thienXwho\\.nuget\\packages\\microsoft.entityframeworkcore\\7.0.14\\microsoft.entityframeworkcore.7.0.14.nupkg.sha512",

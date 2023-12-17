@@ -26,6 +26,7 @@ body {
   line-height: 1.8;
   color: #051922;
   overflow-x: hidden;
+  background-color: #f3f3f3 !important;
 }
 
 body img {

@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Linq.Dynamic.Core;
 using System.Linq;
+using AutoMapper;
 
 namespace FoodStore.Web.Controllers
 {
@@ -15,52 +16,55 @@ namespace FoodStore.Web.Controllers
     public class ProductController : ControllerBase
     {
         private readonly DatabaseContext _context;
+        private readonly IMapper _mapper;
         private readonly IFileService _fileService;
         private readonly IProductRepository _productRepository;
         private readonly ILogger<ProductController> _logger;
-        public ProductController(DatabaseContext context, IProductRepository productRepository,IFileService fs ,ILogger<ProductController> logger) 
+        public ProductController(DatabaseContext context, 
+            IProductRepository productRepository,
+            IFileService fs ,
+            ILogger<ProductController> logger,
+            IMapper mapper
+        ) 
         {
             this._context = context;
             this._productRepository = productRepository;
             this._fileService = fs;
             this._logger = logger;
+            this._mapper = mapper;
         }
-        [HttpGet(Name = "GetProducts")]
-        [ResponseCache(Location = ResponseCacheLocation.Any, Duration = 60)]
-        public async Task<RestDTO<Product[]>> Get(
-            int pageIndex = 0,
-            int pageSize = 3,
-            string? sortColumn = "ProductName",
-            string? sortOrder = "ASC",
-            string? filterQuery = null,
-            string? category = null,
-            string? tag = null
-            )
+        [HttpGet]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<Product>))]
+        public RestDTO<ProductDTO[]> GetProducts(
+            [FromQuery(Name = "page")] int pageIndex = 0,
+            [FromQuery(Name = "size")] int pageSize = 3,
+            [FromQuery(Name = "sort")] string? sortColumn = "ProductName",
+            [FromQuery(Name = "order")] string? sortOrder = "ASC",
+            [FromQuery(Name = "filter")] string? filterQuery = null,
+            [FromQuery(Name = "category")] int? category = null
+            )   
         {
-            var query = await _productRepository.GetAllAsync();
+            var products = _productRepository.getProducts(category);
+            var productDTOs = _mapper.Map<List<ProductDTO>>(products);
+
             if (!string.IsNullOrEmpty(filterQuery))
             {
-                query = query.Where(b => b.ProductName.Contains(filterQuery));
+                productDTOs = productDTOs.Where(b => b.ProductName.Contains(filterQuery)).ToList();
             }
-            if (!string.IsNullOrEmpty(category))
-            {
-                query = query.Where(b => b.Category.Contains(category));
-            }
-            if (!string.IsNullOrEmpty(tag))
-            {
-                if (Enum.TryParse<ProductTag>(tag, out var tagEnum))
-                {
-                    query = query.Where(b => b.Tags == tagEnum);
-                }
-            }
-            var recordcount = query.Count();
+            //var products = _productRepository.GetProductsByCategory(categoryId);
+
+
+            var recordcount = productDTOs.Count();
             var totalPages = (int)Math.Ceiling((double)recordcount / pageSize);
-            var queryableProducts = query.AsQueryable();
-            query = SortAndPaginateProducts(queryableProducts, sortColumn, sortOrder, pageIndex, pageSize);
-            
-            return new RestDTO<Product[]>()
+
+            // Sorting
+            productDTOs = SortProducts(productDTOs, sortColumn, sortOrder);
+
+            // Pagination
+            var paginatedProducts = productDTOs.Skip(pageIndex * pageSize).Take(pageSize).ToArray();
+            return new RestDTO<ProductDTO[]>()
             {
-                Data =  query.ToArray(),
+                Data = paginatedProducts,
                 PageIndex = pageIndex,
                 PageSize = pageSize,
                 RecordCount = recordcount,
@@ -72,44 +76,42 @@ namespace FoodStore.Web.Controllers
             };
         }
 
-        private IQueryable<Product> SortAndPaginateProducts(
-            IQueryable<Product> products,
-            string sortColumn,
-            string sortOrder,
-            int pageIndex,
-            int pageSize)
+        private List<ProductDTO> SortProducts(List<ProductDTO> products, string sortColumn, string sortOrder)
         {
-            // Apply sorting logic
-            products = products.OrderBy($"{sortColumn} {sortOrder}");
-
-            // Apply pagination
-            products = products.Skip(pageIndex * pageSize).Take(pageSize);
+            
+            if (sortOrder == "ASC")
+            {
+                products = products.OrderBy(p => p.GetType().GetProperty(sortColumn)?.GetValue(p, null)).ToList();
+            }
+            else
+            {
+                products = products.OrderByDescending(p => p.GetType().GetProperty(sortColumn)?.GetValue(p, null)).ToList();
+            }
 
             return products;
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add([FromForm] Product p)
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        public IActionResult CreateProduct( [FromQuery] int catId, [FromForm] ProductDTO productCreate)
         {
             var status = new Status();
 
-            if (!ModelState.IsValid)
+            if (productCreate == null)
+                return BadRequest(ModelState);
+            
+            if (productCreate.ImageFile != null)
             {
-                status.StatusCode = 0;
-                status.StatusMessage = "please pass a valid status";
-                return Ok(status);
-            }
-
-            if (p.ImageFile != null)
-            {
-                var fileResult = _fileService.SaveImage(p.ImageFile);
+                var fileResult = _fileService.SaveImage(productCreate.ImageFile);
                 if (fileResult.Item1 == 1)
                 {
-                    p.ProductImage = fileResult.Item2;
+                    productCreate.ProductImage = fileResult.Item2;
                 }
-
-                var producResult = _productRepository.AddAsync(p);
-                if (await producResult)
+                var productMap = _mapper.Map<Product>(productCreate);
+                var productResult = _productRepository.CreateProduct(catId, productMap);
+                
+                if ( productResult)
                 {
                     status.StatusMessage = " added successfully";
                     status.StatusCode = 1;
@@ -172,9 +174,7 @@ namespace FoodStore.Web.Controllers
                 // Update properties of existing product with new values
                 existingProduct.ProductName = updatedProduct.ProductName;
                 existingProduct.Description = updatedProduct.Description;
-                existingProduct.Category = updatedProduct.Category;
                 existingProduct.Price = updatedProduct.Price;
-                existingProduct.Tags = updatedProduct.Tags;
 
                 if (updatedProduct.ImageFile != null)
                 {
@@ -214,39 +214,6 @@ namespace FoodStore.Web.Controllers
             }
         }
 
-        [HttpGet("categories", Name = "GetCategories")]
-        public async Task<ActionResult<RestDTO<string[]>>> GetCategories()
-        {
-            var products = await _productRepository.GetAllAsync();
-            var categories = products
-                .Select(p => p.Category)
-                .Distinct()
-                .ToArray();
-
-
-            return Ok(new RestDTO<string[]>
-            {
-                Data = categories,
-                Links = new List<LinkDTO>
-                {
-                    new LinkDTO(Url.Action(null, "Product", null, Request.Scheme)!, "self", "GET"),
-                }
-            });
-        }
-
-        [HttpGet("tags", Name = "GetTags")]
-        public ActionResult<RestDTO<string[]>> GetTags()
-        {
-            var tags = Enum.GetNames(typeof(ProductTag));
-
-            return Ok(new RestDTO<string[]>
-            {
-                Data = tags,
-                Links = new List<LinkDTO>
-                {
-                    new LinkDTO(Url.Action(null, "Product", null, Request.Scheme)!, "self", "GET"),
-                }
-            });
-        }
+       
     }
 }
