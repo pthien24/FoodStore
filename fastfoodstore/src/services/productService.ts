@@ -1,4 +1,5 @@
 import api from "./api";
+import { ICategory } from "./categoryService";
 import ResponseWrapper from "./responseWrapper";
 
 export interface IProduct {
@@ -6,26 +7,25 @@ export interface IProduct {
   productName: string;
   description: string;
   price: number;
-  category: string;
   productImage: string;
 }
 const list = (
-  filterQuery: string,
-  pageIndex: number,
-  pageSize: number,
-  sortColumn: string,
-  sortOrder: string,
-  categoryid: null
+  page: number,
+  size: number,
+  sort: string,
+  order: string,
+  category: null,
+  filter: string
 ) =>
   api
     .get<ResponseWrapper<IProduct[]>>(`${api.url.product}`, {
       params: {
-        filterQuery,
-        pageIndex,
-        pageSize,
-        sortColumn,
-        sortOrder,
-        categoryid,
+        page,
+        size,
+        sort,
+        order,
+        category,
+        filter,
       },
     })
     .then((response) => response);
@@ -52,13 +52,34 @@ const get = (id: number) =>
   api
     .get<ResponseWrapper<IProduct>>(`${api.url.product}/${id}`)
     .then((res) => res.data);
-const add = (data: IProduct) =>
+
+const getcategory = (id: number) =>
   api
-    .post<ResponseWrapper<IProduct>>(api.url.product, data)
+    .get<ResponseWrapper<ICategory>>(`${api.url.product}/Category/${id}`)
     .then((res) => res.data);
-const update = (data: IProduct, id: number) =>
+const add = (data: IProduct, categoryId: number) =>
   api
-    .put<ResponseWrapper<IProduct>>(`${api.url.product}/${id}`, data)
+    .post<ResponseWrapper<IProduct>>(
+      `${api.url.product}?catId=${categoryId}`,
+      data,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    )
+    .then((res) => res.data);
+const update = (data: IProduct, categoryId: number, productid: number) =>
+  api
+    .put<ResponseWrapper<IProduct>>(
+      `${api.url.product}/${productid}?catId=${categoryId}`,
+      data,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    )
     .then((res) => res.data);
 const remove = (id: number) =>
   api
@@ -69,6 +90,7 @@ const productService = {
   list,
   getproduct,
   categories,
+  getcategory,
   get,
   add,
   update,

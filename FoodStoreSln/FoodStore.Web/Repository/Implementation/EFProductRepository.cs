@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Linq.Dynamic.Core.Tokenizer;
+using System.Reflection;
 using System.Text;
 using FoodStore.Web.DTO;
 using FoodStore.Web.Models.Domain;
@@ -15,65 +16,7 @@ namespace FoodStore.Web.Repository.Implementation
         {
             this._context = context;
         }
-        //old
-
-        public async Task<bool> AddAsync(Product p)
-        {
-            try
-            {
-                _context.Products.Add(p);
-                await _context.SaveChangesAsync();
-                return true;
-            }
-            catch (Exception e)
-            {
-                return false;
-            }
-        }
-
         
-        public async Task<IEnumerable<Product>> GetAllAsync()
-        {
-            return await _context.Products.ToListAsync();
-        }
-
-        public async Task<Product> GetByIdAsync(int id)
-        {
-            return await _context.Products.FindAsync(id);
-        }
-
-        
-
-        public async Task<bool> UpdateAsync(Product p)
-        {
-            try
-            {
-                _context.Products.Update(p);
-                await _context.SaveChangesAsync();
-                return true;
-            }
-            catch (Exception e)
-            {
-                // Log the exception or handle it appropriately
-                return false;
-            }
-        }
-        //old
-
-        public bool CreateProduct(int categoryId, Product product)
-        {
-            var category = _context.Categories.Where(a => a.Id == categoryId).FirstOrDefault();
-            
-            var pokemonCategory = new ProductCategory()
-            {
-                Category = category,
-                Product = product,
-            };
-            _context.Add(product);
-
-            _context.Add(pokemonCategory);
-            return Save();
-        }
         public ICollection<Product> getProducts(int? categoryId = null)
         {
             IQueryable<Product> query = _context.Products;
@@ -98,19 +41,72 @@ namespace FoodStore.Web.Repository.Implementation
                 .FirstOrDefault();
         }
 
-        public bool ProductExists(int pokeId)
+        public bool ProductExists(int proid)
         {
-            throw new NotImplementedException();
+            return _context.Products.Any(p => p.Id == proid);
         }
 
         public Product GetProduct(int id)
         {
-            throw new NotImplementedException();
+            return _context.Products.Where(e => e.Id == id).FirstOrDefault();
         }
 
         public Product GetProduct(string name)
         {
-            throw new NotImplementedException();
+            return _context.Products.Where(e => e.ProductName == name).FirstOrDefault();
+
+        }
+
+        public Category GetCategory(int productId)
+        {
+            var category = _context.Categories
+                .FirstOrDefault(c => c.ProductCategories.Any(pc => pc.ProductId == productId));
+
+            return category;
+        }
+
+        public bool UpdateProduct(int categoryId, Product product)
+        {
+            _context.Update(product);
+            var productCategory = _context.ProductCategories
+                .FirstOrDefault(pc => pc.ProductId == product.Id);
+
+            if (productCategory != null)
+            {
+                // Remove the existing product category
+                _context.Remove(productCategory);
+            }
+
+            // Create a new product category with the updated category
+            var newProductCategory = new ProductCategory
+            {
+                ProductId = product.Id,
+                CategoryId = categoryId
+            };
+
+            // Add the new product category
+            _context.Add(newProductCategory);
+
+            return Save();
+        }
+        public bool CreateProduct(int categoryId, Product product)
+        {
+            var category = _context.Categories.Where(a => a.Id == categoryId).FirstOrDefault();
+
+            var pokemonCategory = new ProductCategory()
+            {
+                Category = category,
+                Product = product,
+            };
+            _context.Add(product);
+
+            _context.Add(pokemonCategory);
+            return Save();
+        }
+        public bool DeleteProduct(Product product)
+        {
+            _context.Remove(product);
+            return Save();
         }
     }
 }

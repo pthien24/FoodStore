@@ -5,15 +5,7 @@ namespace FoodStore.Web.Repository.Abstract
 {
     public interface IProductRepository
     {
-        //old 
-        Task<bool> AddAsync(Product p);
-        Task<IEnumerable<Product>> GetAllAsync();
-        Task<Product> GetByIdAsync(int id);
-        Task<bool> UpdateAsync(Product p);
-        //old 
-
-
-
+        Category GetCategory(int productId);
         ICollection<Product> getProducts(int? categoryId = null);
         Product GetPokemonTrimToUpper(ProductDTO pokemonCreate);
         bool CreateProduct( int categoryId, Product product);
@@ -21,5 +13,8 @@ namespace FoodStore.Web.Repository.Abstract
         bool ProductExists(int pokeId);
         Product GetProduct(int id);
         Product GetProduct(string name);
+
+        bool UpdateProduct(int categoryId, Product product);
+        bool DeleteProduct(Product product);
     }
 }

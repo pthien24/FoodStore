@@ -36,12 +36,12 @@ const Menu: React.FC = () => {
   const fetchData = async () => {
     try {
       const response = await productService.list(
-        searchTerm,
         currentPage,
         productsPerPage,
         sortKey,
         sortOrder,
-        categoryid
+        categoryid,
+        searchTerm
       );
       setProducts(response.data.data);
       setTotalPages(response.data.totalPage);
@@ -49,13 +49,9 @@ const Menu: React.FC = () => {
       console.error("Error fetching data:", error);
     }
   };
-  const fetchCategories = async () => {
-    const response = await productService.categories();
-    setCategories(response.data);
-  };
+
   useEffect(() => {
     fetchData();
-    fetchCategories();
   }, [searchTerm, currentPage, sortKey, sortOrder, categoryid]);
   return (
     <>

@@ -39,12 +39,13 @@ const DefaultLayout = () => {
         <Route path="/news" element={<News />}></Route>
         <Route path="/profile" element={<Profile />}></Route>
         <Route path="/menu/:id" element={<Product />}></Route>
+        <Route path="/cart" element={<Cart />}></Route>
         <Route path="/contact" element={<Contact />}></Route>
-        {isLoggedIn ? (
+        {/* {isLoggedIn ? (
           <Route path="/cart" element={<Cart />}></Route>
         ) : (
           <Route path="/cart" element={<Login />}></Route>
-        )}
+        )} */}
       </Routes>
       <div className="shopping-cart" onClick={() => navigate("/cart")}>
         <ShoppingCart id="cartIcon" />

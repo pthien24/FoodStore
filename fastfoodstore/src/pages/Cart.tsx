@@ -19,20 +19,25 @@ function Cart() {
     e.preventDefault();
     const localStorageDatauser = localStorage.getItem("persist:auth");
     const localStorageDatacart = localStorage.getItem("persist:cart");
-    if (localStorageDatauser !== null && localStorageDatacart !== null) {
-      const passdatauser = JSON.parse(localStorageDatauser);
+    if (localStorageDatacart !== null) {
       const passdatacart = JSON.parse(localStorageDatacart);
-      const userInfo = JSON.parse(passdatauser.userInfo);
       const cart = JSON.parse(passdatacart.cart);
       console.log(cart);
-      console.log(userInfo);
-      cartService.purchase(userInfo, cart).then((response) => {
-        toast.success(response.message);
-        dispatch(removeAll());
-      });
-    } else {
-      console.log("null userInfo or cart data nu");
     }
+    // if (localStorageDatauser !== null && localStorageDatacart !== null) {
+    //   const passdatauser = JSON.parse(localStorageDatauser);
+    //   const passdatacart = JSON.parse(localStorageDatacart);
+    //   const userInfo = JSON.parse(passdatauser.userInfo);
+    //   const cart = JSON.parse(passdatacart.cart);
+    //   console.log(cart);
+    //   console.log(userInfo);
+    //   cartService.purchase(userInfo, cart).then((response) => {
+    //     toast.success(response.message);
+    //     dispatch(removeAll());
+    //   });
+    // } else {
+    //   console.log("null userInfo or cart data nu");
+    // }
   };
   return (
     <>
@@ -68,7 +73,7 @@ function Cart() {
                         </td>
                         <td className="product-image">
                           <img
-                            src={`http://127.0.0.1:8000/storage/${item.image}`}
+                            src={`http://localhost:5068/resources/${item.image}`}
                             alt="item"
                           />
                         </td>

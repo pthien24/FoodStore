@@ -42,6 +42,7 @@ namespace FoodStore.Web.Models.Domain
 
         [Required(ErrorMessage = "Please select a valid order status")]
         public OrderStatus Status { get; set; }
+
     }
 
     public enum OrderStatus

@@ -76,7 +76,7 @@ const Product = () => {
                     </button>
                     <p>
                       <strong>Categories: </strong>
-                      {product?.category}
+                      {/* {product?.category} */}
                     </p>
                   </div>
                   <h4>Share:</h4>

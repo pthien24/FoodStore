@@ -8,6 +8,8 @@ using Microsoft.Extensions.Logging;
 using System.Linq.Dynamic.Core;
 using System.Linq;
 using AutoMapper;
+using FoodStore.Web.Repository.Implementation;
+using System.Net.NetworkInformation;
 
 namespace FoodStore.Web.Controllers
 {
@@ -124,57 +126,60 @@ namespace FoodStore.Web.Controllers
             }
             return Ok(status);
         }
-
-        [HttpGet("{id:int}", Name = "GetProductById")]
-        public async Task<IActionResult> GetProductById(int id)
+        [HttpGet("Category/{productid}")]
+        [ProducesResponseType(200, Type = typeof(RestDTO<Category>))]
+        [ProducesResponseType(400)]
+        public ActionResult<RestDTO<CategoryDTO>> GetCategory(int productid)
         {
-            var product = await _productRepository.GetByIdAsync(id);
+            
+            var category = _mapper.Map<CategoryDTO>(_productRepository.GetCategory(productid));
 
-            if (product == null)
+            
+
+            var restDto = new RestDTO<CategoryDTO> // Update the type here
             {
-                return NotFound(); // 404 Not Found if product with given ID is not found
-            }
+                Data = category,
+                Links = new List<LinkDTO>
+                {
+                    new LinkDTO(Url.Action(null, "Category", null, Request.Scheme)!, "self", "GET"),
+                }
+            };
 
-            var link = new LinkDTO(
-                Url.Link("GetProductById", new { id }),
-                "self",
-                "GET"
-            );
-
-            return Ok(new RestDTO<Product>
-            {
-                Data = product,
-                Links = new List<LinkDTO> { link }
-            });
+            return Ok(restDto);
         }
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromForm] Product updatedProduct)
+        [HttpPut("{productId}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public IActionResult UpdateProduct(int productId,
+            [FromQuery] int catId,
+            [FromForm] ProductDTO updatedProduct)
         {
             var status = new Status();
 
+            if (updatedProduct == null)
+            {
+                return BadRequest("Product data is null.");
+            }
+
+            if (productId != updatedProduct.Id)
+            {
+                return BadRequest("Invalid product ID.");
+            }
+
+            if (!_productRepository.ProductExists(productId))
+            {
+                return NotFound("Product not found.");
+            }
+
             if (!ModelState.IsValid)
             {
-                status.StatusCode = 0;
-                status.StatusMessage = "Please pass a valid status";
-                return Ok(status);
+                return BadRequest(ModelState.Values.SelectMany(v => v.Errors));
             }
 
             try
             {
-                var existingProduct = await _productRepository.GetByIdAsync(id);
-
-                if (existingProduct == null)
-                {
-                    status.StatusCode = 0;
-                    status.StatusMessage = "Product not found";
-                    return Ok(status);
-                }
-
-                // Update properties of existing product with new values
-                existingProduct.ProductName = updatedProduct.ProductName;
-                existingProduct.Description = updatedProduct.Description;
-                existingProduct.Price = updatedProduct.Price;
+                var existingProduct = _productRepository.GetProduct(productId);
 
                 if (updatedProduct.ImageFile != null)
                 {
@@ -185,35 +190,168 @@ namespace FoodStore.Web.Controllers
                         existingProduct.ProductImage = fileResult.Item2;
                     }
                 }
-                else
-                {
-                    existingProduct.ProductImage = existingProduct.ProductImage;
-                }
+
+                // Update other properties of the product
+                existingProduct.ProductName = updatedProduct.ProductName;
+                existingProduct.Description = updatedProduct.Description;
+                existingProduct.Price = updatedProduct.Price;
+
                 // Call the update method from your repository
-                var updateResult = await _productRepository.UpdateAsync(existingProduct);
-
-                if (updateResult)
+                if (!_productRepository.UpdateProduct(catId, existingProduct))
                 {
-                    status.StatusMessage = "Updated successfully";
-                    status.StatusCode = 1;
-                }
-                else
-                {
-                    status.StatusMessage = "Error on updating product";
-                    status.StatusCode = 0;
+                    return BadRequest("Error updating product.");
                 }
 
+                status.StatusMessage = "updated product successfully";
+                status.StatusCode = 1;
                 return Ok(status);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                // Log the exception if needed
-                status.StatusCode = 0;
-                status.StatusMessage = "Internal server error";
-                return Ok(status);
+                _logger.LogError(ex, "Error updating product.");
+                return StatusCode(500, "Internal server error.");
             }
         }
+        [HttpDelete("{productid}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public IActionResult DeleteProduct(int productid)
+        {
+            var status = new Status();
 
-       
+            if (!_productRepository.ProductExists(productid))
+            {
+                return NotFound();
+            }
+
+            var pokemonToDelete = _productRepository.GetProduct(productid);
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            
+
+            if (!_productRepository.DeleteProduct(pokemonToDelete))
+            {
+                ModelState.AddModelError("", "Something went wrong deleting owner");
+            }
+
+            status.StatusMessage = "delete product successfully";
+            status.StatusCode = 1;
+            return Ok(status);
+        }
+        [HttpGet("{productid}")]
+        [ProducesResponseType(200, Type = typeof(RestDTO<Product>))]
+        [ProducesResponseType(400)]
+        public ActionResult<RestDTO<ProductDTO>> GetProduct(int productid)
+        {
+            if (!_productRepository.ProductExists(productid))
+                return NotFound();
+
+            var product = _mapper.Map<ProductDTO>(_productRepository.GetProduct(productid));
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            var restDto = new RestDTO<ProductDTO>
+            {
+                Data = product,
+                Links = new List<LinkDTO>
+                {
+                    new LinkDTO(Url.Action(null, "Product", null, Request.Scheme)!, "self", "GET"),
+                }
+            };
+            return Ok(restDto);
+        }
+        //[HttpGet("{id:int}", Name = "GetProductById")]
+        //public async Task<IActionResult> GetProductById(int id)
+        //{
+        //    var product = await _productRepository.GetByIdAsync(id);
+
+        //    if (product == null)
+        //    {
+        //        return NotFound(); // 404 Not Found if product with given ID is not found
+        //    }
+
+        //    var link = new LinkDTO(
+        //        Url.Link("GetProductById", new { id }),
+        //        "self",
+        //        "GET"
+        //    );
+
+        //    return Ok(new RestDTO<Product>
+        //    {
+        //        Data = product,
+        //        Links = new List<LinkDTO> { link }
+        //    });
+        //}
+
+        //[HttpPut("{id}")]
+        //public async Task<IActionResult> Update(int id, [FromForm] Product updatedProduct)
+        //{
+        //    var status = new Status();
+
+        //    if (!ModelState.IsValid)
+        //    {
+        //        status.StatusCode = 0;
+        //        status.StatusMessage = "Please pass a valid status";
+        //        return Ok(status);
+        //    }
+
+        //    try
+        //    {
+        //        var existingProduct = await _productRepository.GetByIdAsync(id);
+
+        //        if (existingProduct == null)
+        //        {
+        //            status.StatusCode = 0;
+        //            status.StatusMessage = "Product not found";
+        //            return Ok(status);
+        //        }
+
+        //        // Update properties of existing product with new values
+        //        existingProduct.ProductName = updatedProduct.ProductName;
+        //        existingProduct.Description = updatedProduct.Description;
+        //        existingProduct.Price = updatedProduct.Price;
+
+        //        if (updatedProduct.ImageFile != null)
+        //        {
+        //            var fileResult = _fileService.SaveImage(updatedProduct.ImageFile);
+
+        //            if (fileResult.Item1 == 1)
+        //            {
+        //                existingProduct.ProductImage = fileResult.Item2;
+        //            }
+        //        }
+        //        else
+        //        {
+        //            existingProduct.ProductImage = existingProduct.ProductImage;
+        //        }
+        //        // Call the update method from your repository
+        //        var updateResult = await _productRepository.UpdateAsync(existingProduct);
+
+        //        if (updateResult)
+        //        {
+        //            status.StatusMessage = "Updated successfully";
+        //            status.StatusCode = 1;
+        //        }
+        //        else
+        //        {
+        //            status.StatusMessage = "Error on updating product";
+        //            status.StatusCode = 0;
+        //        }
+
+        //        return Ok(status);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        // Log the exception if needed
+        //        status.StatusCode = 0;
+        //        status.StatusMessage = "Internal server error";
+        //        return Ok(status);
+        //    }
+        //}
+
+
     }
 }

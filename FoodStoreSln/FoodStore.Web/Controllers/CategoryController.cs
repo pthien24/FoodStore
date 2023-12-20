@@ -41,6 +41,30 @@ namespace FoodStore.Web.Controllers
 
             return Ok(restDto);
         }
+        [HttpGet("{categoryId}")]
+        [ProducesResponseType(200, Type = typeof(RestDTO<Category>))]
+        [ProducesResponseType(400)]
+        public ActionResult<RestDTO<CategoryDTO>> GetCategory(int categoryId)
+        {
+            if (!_categoryRepository.CategoryExists(categoryId))
+                return NotFound();
+
+            var category = _mapper.Map<CategoryDTO>(_categoryRepository.GetCategory(categoryId));
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var restDto = new RestDTO<CategoryDTO> // Update the type here
+            {
+                Data = category,
+                Links = new List<LinkDTO>
+                {
+                    new LinkDTO(Url.Action(null, "Category", null, Request.Scheme)!, "self", "GET"),
+                }
+            };
+
+            return Ok(restDto);
+        }
         [HttpPost]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
@@ -77,17 +101,25 @@ namespace FoodStore.Web.Controllers
             return Ok(status);
         }
         [HttpGet("Product/{categoryId}")]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Product>))]
+        [ProducesResponseType(200, Type = typeof(RestDTO<List<ProductDTO>>))]
         [ProducesResponseType(400)]
-        public IActionResult GetProductByCategoryId(int categoryId)
+        public ActionResult<RestDTO<ProductDTO[]>> GetProductByCategoryId(int categoryId)
         {
             var products = _mapper.Map<List<ProductDTO>>(
-                _categoryRepository.GetPokemonByCategory(categoryId));
+                _categoryRepository.GetPokemonByCategory(categoryId)).ToArray();
 
             if (!ModelState.IsValid)
                 return BadRequest();
 
-            return Ok(products);
+            var restDto =  new RestDTO<ProductDTO[]>()
+            {
+                Data = products,
+                Links = new List<LinkDTO>
+                {
+                    new LinkDTO(Url.Action(null ,"Product" ,null,Request.Scheme)!,"self","GET"),
+                }
+            };
+            return restDto;
         }
 
         [HttpPut("{categoryId}")]
