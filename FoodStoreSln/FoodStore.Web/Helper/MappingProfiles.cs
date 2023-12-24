@@ -10,6 +10,9 @@ namespace FoodStore.Web.Helper
         {
             CreateMap<Category, CategoryDTO>().ReverseMap();
             CreateMap<Product, ProductDTO>().ReverseMap();
+            CreateMap<Order, OrderDTO>()
+                .ReverseMap();
+            CreateMap<OrderItem, OrderItemDTO>().ReverseMap();
         }
     }
 }

@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using System.ComponentModel.DataAnnotations;
 
 namespace FoodStore.Web.Models.Domain
 {
@@ -8,13 +8,14 @@ namespace FoodStore.Web.Models.Domain
     {
         [BindNever]
         public int OrderID { get; set; }
-
         [BindNever]
+        public DateTime OrderDate { get; set; } = DateTime.UtcNow;
+        public string UserId { get; set; }
         [Required(ErrorMessage = "Order must have at least one item.")]
-        public ICollection<CartItem> Items { get; set; } = new List<CartItem>();
+        public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
 
         [Required(ErrorMessage = "Please enter a Name")]
-        public string? Name { get; set; }
+        public string? CustomerName { get; set; }
 
         [Required(ErrorMessage = "Please enter Phone")]
         public string? Phone { get; set; }
@@ -41,8 +42,9 @@ namespace FoodStore.Web.Models.Domain
         public string? Note { get; set; }
 
         [Required(ErrorMessage = "Please select a valid order status")]
-        public OrderStatus Status { get; set; }
-
+        public OrderStatus Status { get; set; } = OrderStatus.Pending;
+        [NotMapped]
+        public decimal TotalAmount => OrderItems.Sum(item => item.Quantity * item.Product.Price);
     }
 
     public enum OrderStatus

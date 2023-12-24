@@ -263,6 +263,9 @@ namespace FoodStore.Web.Controllers
             };
             return Ok(restDto);
         }
+
+
+
         //[HttpGet("{id:int}", Name = "GetProductById")]
         //public async Task<IActionResult> GetProductById(int id)
         //{
