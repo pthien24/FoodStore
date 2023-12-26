@@ -1,16 +1,24 @@
 import api from "./api";
 import ResponseWrapper from "./responseWrapper";
 
-export interface UserInfo {
-  id: number;
+export interface OrderDTO {
+  customerName: string;
+  email: string;
+  phone: string;
+  country: string;
+  provinceOrCity: string;
+  district: string;
+  wardOrCommune: string;
+  specificAddress: string;
+  note: string;
+  items: CartItem[];
 }
 
 export interface CartItem {
-  id: number;
+  productId: number;
   quantity: number;
-  price: number;
+  unitPrice: number;
 }
-
 export interface PurchaseResponse {
   message: string;
 }
@@ -18,16 +26,16 @@ export interface PurchaseResponse {
 export interface ErrorResponse {
   error: string;
 }
-
-const purchase = (userInfo: UserInfo, cart: CartItem[]) => {
-  const requestData = { userInfo, cart };
+const test = () => api.get<string>(api.url.test).then((res) => res);
+const purchase = (order: OrderDTO) => {
   return api
-    .post<ResponseWrapper<PurchaseResponse>>(api.url.purchase, requestData)
+    .post<ResponseWrapper<PurchaseResponse>>(api.url.purchase, order)
     .then((res) => res.data);
 };
 
 const cartService = {
   purchase,
+  test,
 };
 
 export default cartService;

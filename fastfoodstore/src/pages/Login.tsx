@@ -17,12 +17,13 @@ const Login: FC = () => {
     const username = usernameRef.current?.value;
     const password = paswordRef.current?.value;
     userService.login(username, password).then((res) => {
-      if (res.errorCode === 0) {
+      if (res != null) {
+        console.log(res.data);
         setMessage("");
-        dispatch(login({ token: res.data.token, userInfo: res.data }));
+        dispatch(login({ token: res.token, userInfo: res.data }));
         naviagate("/home");
       } else {
-        setMessage(res.message);
+        console.log("something went wrong");
       }
     });
   };

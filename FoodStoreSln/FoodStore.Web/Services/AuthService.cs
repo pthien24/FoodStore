@@ -14,6 +14,7 @@ namespace FoodStore.Web.Services
         private readonly UserManager<ApiUser> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly IConfiguration _configuration;
+
         public AuthService(UserManager<ApiUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration)
         {
             this.userManager = userManager;
@@ -48,13 +49,13 @@ namespace FoodStore.Web.Services
             return (1, "User created successfully!");
         }
 
-        public async Task<(int, string)> Login(LoginModel model)
+        public async Task<(int, LoginResponseDto)> Login(LoginModel model)
         {
             var user = await userManager.FindByNameAsync(model.Username);
             if (user == null)
-                return (0, "Invalid username");
+                return (0, null);
             if (!await userManager.CheckPasswordAsync(user, model.Password))
-                return (0, "Invalid password");
+                return (0, null);
 
             var userRoles = await userManager.GetRolesAsync(user);
             var authClaims = new List<Claim>
@@ -68,7 +69,20 @@ namespace FoodStore.Web.Services
                 authClaims.Add(new Claim(ClaimTypes.Role, userRole));
             }
             string token = GenerateToken(authClaims);
-            return (1, token);
+
+            var userDto = new ApiUserDto
+            {
+                Id = user.Id,
+                UserName = user.UserName,
+                LastName = user.LastName,
+                FistName = user.FirstName,
+            };
+            var loginResponse = new LoginResponseDto
+            {
+                Token = token,
+                Data = userDto,
+            };
+            return (1, loginResponse);
         }
 
 
@@ -152,5 +166,13 @@ namespace FoodStore.Web.Services
 
             return userRoles.ToList();
         }
+
+        public async Task<string> GetUserIdByUsername(string username)
+        {
+            var user = await userManager.FindByNameAsync(username);
+
+            return user?.Id;
+        }
+
     }
 }

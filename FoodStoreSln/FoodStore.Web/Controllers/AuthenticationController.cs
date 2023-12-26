@@ -42,22 +42,34 @@ namespace FoodStore.Web.Controllers
         [Route("registeration")]
         public async Task<IActionResult> Register(RegistrationModel model)
         {
+
             try
             {
                 if (!ModelState.IsValid)
                     return BadRequest("Invalid payload");
                 var (status, message) = await _authService.Registeration(model, UserRoles.Admin);
+                var Status = new Status();
+
                 if (status == 0)
                 {
-                    return BadRequest(message);
+                    Status.StatusCode = 400;
+                    Status.StatusMessage = message;
+
+                    return BadRequest(Status);
                 }
-                return CreatedAtAction(nameof(Register), model);
+                Status.StatusCode = 201;
+                Status.StatusMessage = "User created successfully";
+                return CreatedAtAction(nameof(Register), Status);
 
             }
             catch (Exception ex)
             {
+                var Status = new Status();
+
                 _logger.LogError(ex.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                Status.StatusCode = 500;
+                Status.StatusMessage = ex.Message;
+                return StatusCode(StatusCodes.Status500InternalServerError, Status);
             }
         }
 

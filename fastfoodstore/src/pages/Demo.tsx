@@ -64,7 +64,7 @@ const Demo = () => {
         <select onChange={handleCategoryChange}>
           <option value="">Tất cả danh mục</option>
           {/* Render danh sách danh mục */}
-          <ListCategory />
+          {/* <ListCategory /> */}
         </select>
         <input
           type="text"

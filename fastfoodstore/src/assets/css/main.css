@@ -433,7 +433,11 @@ p:last-child {
 .blue-bg {
   background-color: #162133;
 }
-
+.product-filters .boxed-btn.selected {
+  background-color: #fff;
+  color: #f28123;
+  /* Add any additional styling for the selected state */
+}
 a.boxed-btn {
   font-family: "Poppins", sans-serif;
   display: inline-block;

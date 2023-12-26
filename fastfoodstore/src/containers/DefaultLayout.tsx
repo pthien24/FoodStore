@@ -16,6 +16,7 @@ import { CartItem } from "../store/reducers/carSlice";
 import "./layout.css";
 import Login from "../pages/Login";
 import Profile from "../pages/Profile";
+import Checkout from "../pages/Checkout";
 const DefaultLayout = () => {
   const cart = useSelector((state: RootState) => state.cart.cart);
   const navigate = useNavigate();
@@ -39,13 +40,14 @@ const DefaultLayout = () => {
         <Route path="/news" element={<News />}></Route>
         <Route path="/profile" element={<Profile />}></Route>
         <Route path="/menu/:id" element={<Product />}></Route>
-        <Route path="/cart" element={<Cart />}></Route>
+        {/* <Route path="/cart" element={<Cart />}></Route> */}
         <Route path="/contact" element={<Contact />}></Route>
-        {/* {isLoggedIn ? (
+        <Route path="/checkout" element={<Checkout />}></Route>
+        {isLoggedIn ? (
           <Route path="/cart" element={<Cart />}></Route>
         ) : (
           <Route path="/cart" element={<Login />}></Route>
-        )} */}
+        )}
       </Routes>
       <div className="shopping-cart" onClick={() => navigate("/cart")}>
         <ShoppingCart id="cartIcon" />

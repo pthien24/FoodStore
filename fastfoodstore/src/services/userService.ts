@@ -4,8 +4,9 @@ import ResponseWrapper from "./responseWrapper";
 
 export type LoginInfo = {
   id: number;
-  username: string;
-  fullName: string;
+  userName: string;
+  lastName: string;
+  fistName: string;
   token: string;
 };
 export type UserInfo = {
@@ -29,24 +30,22 @@ const login = (username: string, password: string) => {
     .then((res) => res.data);
 };
 const register = (
-  lastName: string,
-  fisrtName: string,
   username: string,
-  phone: string,
+  firstName: string,
+  lastName: string,
   email: string,
   password: string
 ) => {
   const data = {
-    lastName: lastName,
-    fisrtName: fisrtName,
     username: username,
-    phone: phone,
+    firstName: firstName,
+    lastName: lastName,
     email: email,
     password: password,
   };
   return api
     .post<ResponseWrapper<UserInfo>>(api.url.register, data)
-    .then((res) => res.data);
+    .then((res) => res);
 };
 const profile = () =>
   api.get<ResponseWrapper<UserInfo>>(`${api.url.member}/profile`);

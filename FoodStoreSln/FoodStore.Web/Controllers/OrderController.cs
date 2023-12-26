@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using FoodStore.Web.DTO;
 using FoodStore.Web.Models.Domain;
 using FoodStore.Web.Repository.Abstract;
+using FoodStore.Web.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -11,22 +13,19 @@ namespace FoodStore.Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize("User")]
+    [Authorize(Roles = UserRoles.Admin + "," + UserRoles.User)]
     public class OrderController : ControllerBase
     {
-        private readonly DatabaseContext _db;
         private readonly IOrderRepository _orderRepository;
+        private readonly IAuthService _auth;
         private readonly IMapper _mapper;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        public OrderController(DatabaseContext db,IOrderRepository orderService,IMapper mapper, IHttpContextAccessor httpContextAccessor,
-            UserManager<IdentityUser> userManager)
+        public OrderController(IOrderRepository orderService,IMapper mapper, IAuthService auth)
         {
-            _db = db;
             _orderRepository = orderService;
             _mapper = mapper;
-            _userManager = userManager;
-            _httpContextAccessor = httpContextAccessor;
+            _auth = auth;
         }
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Order>))]
@@ -38,28 +37,25 @@ namespace FoodStore.Web.Controllers
         }
         // Trong API Controller
         [HttpPost("PlaceOrder")]
-        public IActionResult PlaceOrder([FromBody] OrderDTO orderDTO)
+        public async Task<IActionResult> PlaceOrder([FromBody] OrderDTO orderDTO)
         {
+            var username = User.Identity.Name;
+            Console.WriteLine("username : "+username);
+            // Check if the username is available
+            if (string.IsNullOrEmpty(username))
+            {
+                return BadRequest("Username not found in claims.");
+            }
+            var userId = await _auth.GetUserIdByUsername(username);
             if (orderDTO == null || orderDTO.Items == null || orderDTO.Items.Count == 0)
             {
                 return BadRequest("Invalid order data.");
             }
-            var userId = GetUserId();
-            if (string.IsNullOrEmpty(userId))
-                throw new Exception("User is not logged-in");
-
             var order = _mapper.Map<Order>(orderDTO);
-
             var orderItems = _mapper.Map<List<OrderItem>>(orderDTO.Items);
-            _orderRepository.PlaceOrder(order, orderItems, userId);
-
+            _orderRepository.PlaceOrder(order, orderItems,userId);
             return Ok("Order placed successfully.");
         }
-        private string GetUserId()
-        {
-            var principal = _httpContextAccessor.HttpContext.User;
-            string userId = _userManager.GetUserId(principal);
-            return userId;
-        }
+       
     }
 }

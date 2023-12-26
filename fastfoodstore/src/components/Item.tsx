@@ -25,8 +25,11 @@ function Item({ id, title, image, price, showProduct }: ItemProps) {
         <p className="product-price">
           <span>Tính Theo Số Lượng</span> {price}
         </p>
-        <button
-          onClick={() => {
+        <a
+          className="boxed-btn"
+          href="/"
+          onClick={(e) => {
+            e.preventDefault();
             dispatch(
               addToCart({
                 id,
@@ -43,7 +46,7 @@ function Item({ id, title, image, price, showProduct }: ItemProps) {
           }}
         >
           <i className="fas fa-shopping-cart" /> Add to Cart
-        </button>
+        </a>
       </div>
     </div>
   );

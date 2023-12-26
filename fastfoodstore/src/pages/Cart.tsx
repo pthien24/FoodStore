@@ -12,8 +12,10 @@ import Breadcrumb from "../components/Breadcrumb";
 import Total from "../components/Total";
 import { toast } from "react-toastify";
 import cartService, { PurchaseResponse } from "./../services/cartService";
+import { useNavigate } from "react-router-dom";
 function Cart() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const cart = useSelector((state: RootState) => state.cart.cart);
   const handleCheckout = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -23,6 +25,10 @@ function Cart() {
       const passdatacart = JSON.parse(localStorageDatacart);
       const cart = JSON.parse(passdatacart.cart);
       console.log(cart);
+      cartService.test().then((response) => {
+        console.log(response);
+        // dispatch(removeAll());
+      });
     }
     // if (localStorageDatauser !== null && localStorageDatacart !== null) {
     //   const passdatauser = JSON.parse(localStorageDatauser);
@@ -38,6 +44,22 @@ function Cart() {
     // } else {
     //   console.log("null userInfo or cart data nu");
     // }
+  };
+
+  const handleContinueCheckout = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const localStorageDatacart = localStorage.getItem("persist:cart");
+    if (localStorageDatacart !== null) {
+      navigate("/checkout");
+
+      const passdatacart = JSON.parse(localStorageDatacart);
+      const cart = JSON.parse(passdatacart.cart);
+      console.log(cart);
+      cartService.test().then((response) => {
+        console.log(response);
+        // dispatch(removeAll());
+      });
+    }
   };
   return (
     <>
@@ -105,7 +127,7 @@ function Cart() {
                 <div className="cart-buttons">
                   <a
                     href="/"
-                    onClick={handleCheckout}
+                    onClick={handleContinueCheckout}
                     className="boxed-btn black"
                   >
                     Check Out

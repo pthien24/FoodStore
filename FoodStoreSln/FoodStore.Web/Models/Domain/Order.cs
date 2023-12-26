@@ -4,13 +4,13 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace FoodStore.Web.Models.Domain
 {
+    [Table("Order")]
     public class Order
     {
-        [BindNever]
-        public int OrderID { get; set; }
-        [BindNever]
-        public DateTime OrderDate { get; set; } = DateTime.UtcNow;
+        public int Id { get; set; }
+        [Required]
         public string UserId { get; set; }
+        public DateTime CreateDate { get; set; } = DateTime.UtcNow;
         [Required(ErrorMessage = "Order must have at least one item.")]
         public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
 

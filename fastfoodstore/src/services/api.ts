@@ -4,10 +4,11 @@ const url = {
   baseUrl: "http://localhost:5068/api",
   product: "/Product",
   category: "/Category",
-  login: "/member/login",
+  login: "/Authentication/login",
   member: "/member",
-  purchase: "/purchase",
-  register: "/member/register",
+  purchase: "/Order/PlaceOrder",
+  register: "/Authentication/registeration",
+  test: "/UserList/getid",
 };
 const instance = axios.create({
   baseURL: url.baseUrl,
@@ -19,6 +20,7 @@ const instance = axios.create({
 instance.interceptors.request.use((request) => {
   const state: RootState = store.getState();
   if (state.auth.token) {
+    console.log(state.auth.token);
     request.headers.Authorization = `Bearer ${state.auth.token}`;
   }
   return request;
@@ -34,7 +36,7 @@ instance.interceptors.response.use(
           window.location.href = "/login";
           break;
         case 403:
-          window.location.href = "/home";
+          window.location.href = "/login";
           break;
         default:
           break;

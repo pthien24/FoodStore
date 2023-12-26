@@ -9,5 +9,6 @@ type ResponseWrapper<T> = {
   error: string;
   statusCode: number;
   statusMessage: string;
+  token: string;
 };
 export default ResponseWrapper;

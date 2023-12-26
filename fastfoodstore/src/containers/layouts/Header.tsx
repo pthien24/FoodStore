@@ -8,7 +8,7 @@ import { logout } from "../../store/reducers/authSlice";
 const Header = () => {
   const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
   const userName = useSelector(
-    (state: RootState) => state.auth.userInfo?.username
+    (state: RootState) => state.auth.userInfo?.userName
   );
   const dispatch = useDispatch();
 

@@ -14,7 +14,7 @@ const list = (
   size: number,
   sort: string,
   order: string,
-  category: null,
+  category: number | null,
   filter: string
 ) =>
   api

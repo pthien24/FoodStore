@@ -24,22 +24,23 @@ const Register = () => {
     const firstname = firstnameRef.current?.value;
     const lastname = lastnameRef.current?.value;
     const email = emailRef.current?.value;
-    const phone = phoneRef.current?.value;
     userService
-      .register(lastname, firstname, username, phone, email, password)
+      .register(username, firstname, lastname, email, password)
       .then((res) => {
-        if (res.errorCode === 0) {
+        console.log(res.data);
+        if (res.data.statusCode === 201) {
           userService.login(username, password).then((res) => {
-            if (res.errorCode === 0) {
+            if (res != null) {
+              console.log(res.data);
               setMessage("");
-              dispatch(login({ token: res.data.token, userInfo: res.data }));
+              dispatch(login({ token: res.token, userInfo: res.data }));
               naviagate("/home");
             } else {
-              setMessage(res.message);
+              setMessage(res);
             }
           });
         } else {
-          setMessage(res.message);
+          setMessage(res.data.statusMessage);
           toast.error(message);
         }
       });
@@ -78,21 +79,6 @@ const Register = () => {
                 placeholder="Enter your last name"
               />
               <Input
-                id="Txtemail"
-                inputRef={emailRef}
-                type="email"
-                autoComplete="off"
-                placeholder="Enter your email address"
-              />
-              <Input
-                id="Txtphone"
-                inputRef={phoneRef}
-                // lable="User Name"
-                type="text"
-                autoComplete="off"
-                placeholder="Enter your phone number"
-              />
-              <Input
                 id="TxtUsername"
                 inputRef={usernameRef}
                 // lable="User Name"
@@ -100,6 +86,14 @@ const Register = () => {
                 autoComplete="off"
                 placeholder="Enter your username"
               />
+              <Input
+                id="Txtemail"
+                inputRef={emailRef}
+                type="email"
+                autoComplete="off"
+                placeholder="Enter your email address"
+              />
+
               <Input
                 id="TxtPassword"
                 inputRef={paswordRef}
@@ -118,7 +112,7 @@ const Register = () => {
                 className="form-text text-center mb-5 text-dark"
               >
                 Not Registered?{" "}
-                <a href="#" className="text-dark fw-bold">
+                <a href="/" className="text-dark fw-bold">
                   {" "}
                   Create an Account
                 </a>
