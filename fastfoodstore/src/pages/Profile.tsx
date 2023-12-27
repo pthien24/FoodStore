@@ -6,24 +6,24 @@ import OrderHistoryItem from "../services/OrderHistory";
 
 const Page = () => {
   const [profile, setProfile] = useState<UserInfo>();
-  const [history, setHistory] = useState<OrderHistoryItem[]>([]);
-  useEffect(() => {
-    userService.profile().then((res) => {
-      if (res.data.errorCode === 0) {
-        setProfile(res.data.data);
-      }
-    });
-    userService.history().then((res) => {
-      if (res.errorCode === 0) {
-        setHistory(res.data);
-        console.log(history);
-      }
-    });
-  }, []);
+  // const [history, setHistory] = useState<OrderHistoryItem[]>([]);
+  // useEffect(() => {
+  //   userService.profile().then((res) => {
+  //     if (res.data.errorCode === 0) {
+  //       setProfile(res.data.data);
+  //     }
+  //   });
+  //   userService.history().then((res) => {
+  //     if (res.errorCode === 0) {
+  //       setHistory(res.data);
+  //       console.log(history);
+  //     }
+  //   });
+  // }, []);
   return (
     <>
       <Breadcrumb title={"Profile"} />
-
+      {/* 
       <div className="container emp-profile">
         <form method="post">
           <div className="row">
@@ -147,8 +147,8 @@ const Page = () => {
                               className="accordion-collapse collapse"
                               aria-labelledby={`flush-heading${order.id}`}
                               data-bs-parent="#accordionFlushExample"
-                            >
-                              <div className="accordion-body">
+                            > */}
+      {/* <div className="accordion-body">
                                 <h2>Order Details</h2>
                                 <p>Order ID: {order.id}</p>
                                 <p>Total: ${order.total}</p>
@@ -163,15 +163,15 @@ const Page = () => {
                                 </p>
                                 <p>Phone Number: {order.phone_number}</p>
 
-                                <h3>Items</h3>
-                                {/* {order.items.map((item) => (
+                                <h3>Items</h3> */}
+      {/* {order.items.map((item) => (
                                   <div key={item.id}>
                                     <p>Product: {item.product.name}</p>
                                     <p>Quantity: {item.quantity}</p>
                                     <p>Price: ${item.price}</p>
                                   </div>
                                 ))} */}
-                              </div>
+      {/* </div>
                             </div>
                           </div>
                         ))}
@@ -191,7 +191,7 @@ const Page = () => {
             </div>
           </div>
         </form>
-      </div>
+      </div> */}
     </>
   );
 };

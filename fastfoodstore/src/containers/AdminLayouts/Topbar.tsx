@@ -55,7 +55,7 @@ const Topbar = () => {
               </div>
             </li>
             <li className="nav-item">
-              <a className="nav-link active" href="products.html">
+              <a className="nav-link" href="products.html">
                 <i className="fas fa-shopping-cart" /> Products
               </a>
             </li>

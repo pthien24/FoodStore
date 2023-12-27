@@ -29,12 +29,25 @@ namespace FoodStore.Web.Controllers
         }
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Order>))]
-        public ActionResult<IEnumerable<Order>> GetOrdersWithItems()
+        public RestDTO<Order[]> GetOrdersWithItems()
         {
             var ordersWithItems = _orderRepository.GetOrdersWithItems();
 
-            return Ok(ordersWithItems);
+            return new RestDTO<Order[]>()
+            {
+                Data = ordersWithItems.ToArray(),
+                PageIndex = null,
+                PageSize = null,
+                RecordCount = null,
+                TotalPage = null,
+                Links = new List<LinkDTO>
+                {
+                    new LinkDTO(Url.Action(null ,"Order" ,null,Request.Scheme)!,"self","GET"),
+                }
+            };
         }
+
+
         // Trong API Controller
         [HttpPost("PlaceOrder")]
         public async Task<IActionResult> PlaceOrder([FromBody] OrderDTO orderDTO)

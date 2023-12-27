@@ -10,5 +10,6 @@ type ResponseWrapper<T> = {
   statusCode: number;
   statusMessage: string;
   token: string;
+  role: string;
 };
 export default ResponseWrapper;

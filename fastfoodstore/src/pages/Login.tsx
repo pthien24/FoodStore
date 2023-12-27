@@ -20,7 +20,9 @@ const Login: FC = () => {
       if (res != null) {
         console.log(res.data);
         setMessage("");
-        dispatch(login({ token: res.token, userInfo: res.data }));
+        dispatch(
+          login({ token: res.token, userInfo: res.data, role: res.role })
+        );
         naviagate("/home");
       } else {
         console.log("something went wrong");
@@ -74,7 +76,7 @@ const Login: FC = () => {
                 className="form-text text-center mb-5 text-dark"
               >
                 Not Registered?{" "}
-                <a href="#" className="text-dark fw-bold">
+                <a href="/" className="text-dark fw-bold">
                   {" "}
                   Create an Account
                 </a>

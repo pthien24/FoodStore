@@ -5,7 +5,7 @@ import { Route, Routes } from "react-router-dom";
 import DefaultLayout from "./containers/DefaultLayout";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import AdminLayout from "./containers/AdminLayout ";
+import AdminLayout from "./containers/AdminLayout";
 
 function App() {
   return (

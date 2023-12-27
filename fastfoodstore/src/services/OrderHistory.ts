@@ -1,26 +1,43 @@
+import api from "./api";
 import { IProduct } from "./productService";
+import ResponseWrapper from "./responseWrapper";
 
 interface IItem {
   id: number;
+  orderId: number;
+  productId: number;
   quantity: number;
-  price: number;
-  order_id: number;
-  product_id: number;
-  created_at: string;
-  updated_at: string;
+  unitPrice: string;
+  order: null;
   product: IProduct;
 }
-
-interface OrderHistoryItem {
-  id: number;
-  total: number;
-  user_id: number;
-  order_status: number;
-  delivery_address: string;
-  phone_number: string;
-  created_at: string;
-  updated_at: string;
-  items: IItem[];
+enum status {
+  Pending,
+  Shipped,
+  Cancelled,
 }
+export interface OrderHistoryItem {
+  id: number;
+  userId: string;
+  createDate: string;
+  orderItems: IItem[];
+  customerName: number;
+  phone: string;
+  email: string;
+  provinceOrCity: string;
+  district: string;
+  wardOrCommune: string;
+  specificAddress: string;
+  note: string;
+  status: status;
+  totalAmount: number;
+}
+const getorder = () =>
+  api
+    .get<ResponseWrapper<OrderHistoryItem[]>>(`${api.url.order}`)
+    .then((res) => res.data);
 
-export default OrderHistoryItem;
+const OrderHistoryService = {
+  getorder,
+};
+export default OrderHistoryService;

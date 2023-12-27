@@ -1,4 +1,3 @@
-import OrderHistoryItem from "./OrderHistory";
 import api from "./api";
 import ResponseWrapper from "./responseWrapper";
 
@@ -50,14 +49,13 @@ const register = (
 const profile = () =>
   api.get<ResponseWrapper<UserInfo>>(`${api.url.member}/profile`);
 
-const history = () =>
-  api
-    .get<ResponseWrapper<OrderHistoryItem[]>>(`${api.url.member}/historyorder`)
-    .then((res) => res.data);
+// const history = () =>
+//   api
+//     .get<ResponseWrapper<OrderHistoryItem[]>>(`${api.url.member}/historyorder`)
+//     .then((res) => res.data);
 const userService = {
   login,
   register,
   profile,
-  history,
 };
 export default userService;

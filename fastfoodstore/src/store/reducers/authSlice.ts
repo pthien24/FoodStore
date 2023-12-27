@@ -5,6 +5,7 @@ import Register from "./../../pages/Register";
 interface AuthState {
   isLoggedIn: boolean;
   token?: string;
+  role?: string;
   userInfo?: LoginInfo;
 }
 const authSlice = createSlice({
@@ -12,24 +13,35 @@ const authSlice = createSlice({
   initialState: {
     isLoggedIn: false,
     token: undefined,
+    role: undefined,
     userInfo: undefined,
   } as AuthState,
   reducers: {
     login: (
       state,
-      action: PayloadAction<{ token: string; userInfo: LoginInfo }>
+      action: PayloadAction<{
+        token: string;
+        userInfo: LoginInfo;
+        role: string;
+      }>
     ) => {
       state.isLoggedIn = true;
       state.token = action.payload.token;
       state.userInfo = action.payload.userInfo;
+      state.role = action.payload.role;
     },
     register: (
       state,
-      action: PayloadAction<{ token: string; userInfo: LoginInfo }>
+      action: PayloadAction<{
+        token: string;
+        userInfo: LoginInfo;
+        role: string;
+      }>
     ) => {
       state.isLoggedIn = true;
       state.token = action.payload.token;
       state.userInfo = action.payload.userInfo;
+      state.role = action.payload.role;
     },
     logout: (state) => {
       state.isLoggedIn = false;

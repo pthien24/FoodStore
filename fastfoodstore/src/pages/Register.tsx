@@ -33,7 +33,9 @@ const Register = () => {
             if (res != null) {
               console.log(res.data);
               setMessage("");
-              dispatch(login({ token: res.token, userInfo: res.data }));
+              dispatch(
+                login({ token: res.token, userInfo: res.data, role: res.role })
+              );
               naviagate("/home");
             } else {
               setMessage(res);

@@ -6,6 +6,7 @@ const url = {
   category: "/Category",
   login: "/Authentication/login",
   member: "/member",
+  order: "/Order",
   purchase: "/Order/PlaceOrder",
   register: "/Authentication/registeration",
   test: "/UserList/getid",

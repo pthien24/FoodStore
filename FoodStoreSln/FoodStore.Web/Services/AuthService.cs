@@ -81,6 +81,7 @@ namespace FoodStore.Web.Services
             {
                 Token = token,
                 Data = userDto,
+                Role = userRoles.ToList(),
             };
             return (1, loginResponse);
         }
