@@ -175,5 +175,9 @@ namespace FoodStore.Web.Services
             return user?.Id;
         }
 
+        public ApiUser GetUserById(string userId)
+        {
+            return userManager.FindByIdAsync(userId).Result;
+        }
     }
 }

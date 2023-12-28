@@ -24,7 +24,7 @@ const AdminLayout = () => {
               <Route path="/order/:id" element={<AdminOrder />} />
             </>
           ) : (
-            <Route path="/loginAdmin" element={<AdminLogin />} />
+            <Route path="/" element={<AdminLogin />} />
           )}
         </Routes>
         <Footer />

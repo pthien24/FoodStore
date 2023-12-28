@@ -24,6 +24,7 @@ export interface OrderHistoryItem {
   customerName: number;
   phone: string;
   email: string;
+  country: string;
   provinceOrCity: string;
   district: string;
   wardOrCommune: string;
@@ -36,8 +37,18 @@ const getorder = () =>
   api
     .get<ResponseWrapper<OrderHistoryItem[]>>(`${api.url.order}`)
     .then((res) => res.data);
+const getorderbyid = (id: number) =>
+  api
+    .get<ResponseWrapper<OrderHistoryItem>>(`${api.url.order}/${id}`)
+    .then((res) => res.data);
+const getorderbyuserid = (id: string) =>
+  api
+    .get<ResponseWrapper<OrderHistoryItem[]>>(`${api.url.order}/user/${id}`)
+    .then((res) => res.data);
 
 const OrderHistoryService = {
   getorder,
+  getorderbyid,
+  getorderbyuserid,
 };
 export default OrderHistoryService;

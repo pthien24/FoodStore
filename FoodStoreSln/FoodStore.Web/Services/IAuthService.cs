@@ -11,5 +11,6 @@ namespace FoodStore.Web.Services
         Task<(int, string)> UpdateUserRole(string username, string newRole);
         Task<List<string>> GetUserRoles(string username);
         Task<string> GetUserIdByUsername(string username);
+        ApiUser GetUserById(string userId);
     }
 }

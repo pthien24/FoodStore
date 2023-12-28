@@ -15,6 +15,34 @@ namespace FoodStore.Web.Repository.Implementation
             _dbContext = dbContext;
             _auth = auth;
         }
+        public void UpdateOrderStatus(int orderId, OrderStatus newStatus)
+        {
+            try
+            {
+                var orderToUpdate = _dbContext.Orders.FirstOrDefault(o => o.Id == orderId);
+
+                if (orderToUpdate != null)
+                {
+                    orderToUpdate.Status = newStatus;
+                    _dbContext.SaveChanges();
+                }
+                else
+                {
+                    Console.WriteLine($"Order with ID {orderId} not found.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error updating order status: {ex.Message}");
+            }
+        }
+        public Order GetOrderById(int orderId)
+        {
+            return _dbContext.Orders
+                .Include(o => o.OrderItems)
+                .ThenInclude(oi => oi.Product)
+                .FirstOrDefault(o => o.Id == orderId);
+        }
 
         public IEnumerable<Order> GetOrdersWithItems()
         {
@@ -23,6 +51,16 @@ namespace FoodStore.Web.Repository.Implementation
                 .ThenInclude(oi => oi.Product)
                 .ThenInclude(p => p.ProductCategories)
                 .ThenInclude(pc => pc.Category) // Include the Category navigation property
+                .ToList();
+        }
+        public IEnumerable<Order> GetOrdersByUserId(string userId)
+        {
+            return _dbContext.Orders
+                .Where(o => o.UserId == userId)
+                .Include(o => o.OrderItems)
+                .ThenInclude(oi => oi.Product)
+                .ThenInclude(p => p.ProductCategories)
+                .ThenInclude(pc => pc.Category)
                 .ToList();
         }
         public void PlaceOrder(Order order, List<OrderItem> orderItems ,string orderid)

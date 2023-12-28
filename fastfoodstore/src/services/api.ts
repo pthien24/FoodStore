@@ -5,11 +5,12 @@ const url = {
   product: "/Product",
   category: "/Category",
   login: "/Authentication/login",
-  member: "/member",
+  member: "/Authentication/GetUserById",
   order: "/Order",
   purchase: "/Order/PlaceOrder",
   register: "/Authentication/registeration",
   test: "/UserList/getid",
+  Review: "Review",
 };
 const instance = axios.create({
   baseURL: url.baseUrl,

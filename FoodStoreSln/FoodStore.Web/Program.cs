@@ -22,7 +22,7 @@ builder.Services.AddTransient<IProductRepository, EFProductRepository>();
 builder.Services.AddTransient<ICategoryRepository, EFCategoryRepository>();
 builder.Services.AddTransient<IFileService, FileService>();
 builder.Services.AddScoped<IOrderRepository, EFOrderRepository>();
-
+builder.Services.AddScoped<IReviewRepository, EFReviewRepository>();
 builder.Services.AddControllers().AddJsonOptions(x =>
 {
     x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;

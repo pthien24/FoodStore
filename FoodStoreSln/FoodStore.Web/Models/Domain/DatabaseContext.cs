@@ -11,6 +11,8 @@ namespace FoodStore.Web.Models.Domain
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Category>? Categories  { get; set; }
         public DbSet<ProductCategory>? ProductCategories  { get; set; }
+        public DbSet<Review> Reviews { get; set; }
+        public DbSet<ApiUser> User { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

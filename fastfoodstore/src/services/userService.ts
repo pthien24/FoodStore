@@ -2,14 +2,14 @@ import api from "./api";
 import ResponseWrapper from "./responseWrapper";
 
 export type LoginInfo = {
-  id: number;
+  id: string;
   userName: string;
   lastName: string;
   fistName: string;
   token: string;
 };
 export type UserInfo = {
-  id: number;
+  id: string;
   lastName: string;
   fisrtName: string;
   phone: string;
@@ -46,8 +46,8 @@ const register = (
     .post<ResponseWrapper<UserInfo>>(api.url.register, data)
     .then((res) => res);
 };
-const profile = () =>
-  api.get<ResponseWrapper<UserInfo>>(`${api.url.member}/profile`);
+const profile = (id: string) =>
+  api.get<ResponseWrapper<UserInfo>>(`${api.url.member}/${id}`);
 
 // const history = () =>
 //   api

@@ -191,12 +191,10 @@ namespace FoodStore.Web.Controllers
                     }
                 }
 
-                // Update other properties of the product
                 existingProduct.ProductName = updatedProduct.ProductName;
                 existingProduct.Description = updatedProduct.Description;
                 existingProduct.Price = updatedProduct.Price;
 
-                // Call the update method from your repository
                 if (!_productRepository.UpdateProduct(catId, existingProduct))
                 {
                     return BadRequest("Error updating product.");

@@ -1,4 +1,5 @@
 ﻿using FoodStore.Web.DTO;
+using FoodStore.Web.Models.Domain;
 using FoodStore.Web.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -121,6 +122,37 @@ namespace FoodStore.Web.Controllers
             else
             {
                 return NotFound(new { Error = "User not found" });
+            }
+        }
+
+        [HttpGet("GetUserById/{userId}")]
+        public ActionResult<RestDTO<ApiUser>> GetUserById(string userId)
+        {
+            try
+            {
+                var user =  _authService.GetUserById(userId);
+
+                if (user != null)
+                {
+                    var restDto = new RestDTO<ApiUser>
+                    {
+                        Data = user,
+                        Links = new List<LinkDTO>
+                {
+                    new LinkDTO(Url.Action(null, "Product", null, Request.Scheme)!, "self", "GET"),
+                }
+                    };
+                    return Ok(restDto);
+                }
+                else
+                {
+                    return NotFound(new { Error = "User not found" });
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
     }

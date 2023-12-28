@@ -46,7 +46,21 @@ namespace FoodStore.Web.Controllers
                 }
             };
         }
-
+        [HttpPut("update-status/{orderId}/{newStatus}")]
+        public IActionResult UpdateOrderStatus(int orderId, OrderStatus newStatus)
+        {
+            try
+            {
+                _orderRepository.UpdateOrderStatus(orderId, newStatus);
+                return Ok(new { Message = "Order status updated successfully." });
+            }
+            catch (Exception ex)
+            {
+                // Log the error
+                Console.WriteLine($"Error updating order status: {ex.Message}");
+                return StatusCode(500, new { Error = "Internal Server Error" });
+            }
+        }
 
         // Trong API Controller
         [HttpPost("PlaceOrder")]
@@ -69,6 +83,42 @@ namespace FoodStore.Web.Controllers
             _orderRepository.PlaceOrder(order, orderItems,userId);
             return Ok("Order placed successfully.");
         }
-       
+
+        [HttpGet("{id}")]
+        public RestDTO<Order> GetOrderById(int id)
+        { 
+            var order = _orderRepository.GetOrderById(id);
+
+            return new RestDTO<Order>()
+            {
+                Data = order,
+                PageIndex = null,
+                PageSize = null,
+                RecordCount = null,
+                TotalPage = null,
+                Links = new List<LinkDTO>
+                {
+                    new LinkDTO(Url.Action(null ,"Order" ,null,Request.Scheme)!,"self","GET"),
+                }
+            };
+        }
+        [HttpGet("user/{userId}")]
+        public RestDTO<Order[]> GetOrdersByUserId(string userId)
+        {
+            var ordersByUserId = _orderRepository.GetOrdersByUserId(userId);
+
+            return new RestDTO<Order[]>()
+            {
+                Data = ordersByUserId.ToArray(),
+                PageIndex = null,
+                PageSize = null,
+                RecordCount = null,
+                TotalPage = null,
+                Links = new List<LinkDTO>
+        {
+            new LinkDTO(Url.Action(null ,"Order" ,null,Request.Scheme)!,"self","GET"),
+        }
+            };
+        }
     }
 }

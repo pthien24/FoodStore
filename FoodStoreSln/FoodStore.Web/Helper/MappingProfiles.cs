@@ -13,6 +13,8 @@ namespace FoodStore.Web.Helper
             CreateMap<Order, OrderDTO>()
                 .ReverseMap();
             CreateMap<OrderItem, OrderItemDTO>().ReverseMap();
+            CreateMap<Review, ReviewDto>()
+                .ReverseMap();
         }
     }
 }
