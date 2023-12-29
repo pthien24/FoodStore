@@ -3,6 +3,7 @@ using FoodStore.Web.DTO;
 using FoodStore.Web.Models.Domain;
 using FoodStore.Web.Repository.Abstract;
 using FoodStore.Web.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,6 +11,7 @@ namespace FoodStore.Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+
     public class ReviewController : ControllerBase
     {
         private readonly IReviewRepository _reviewRepository;
@@ -58,6 +60,7 @@ namespace FoodStore.Web.Controllers
             };
             return Ok(restDto);
         }
+        [Authorize(Roles = UserRoles.Admin + "," + UserRoles.User)]
         [HttpPost]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]

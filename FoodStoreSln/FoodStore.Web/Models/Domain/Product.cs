@@ -21,7 +21,8 @@ namespace FoodStore.Web.Models.Domain
 
         [NotMapped]
         public IFormFile? ImageFile { get; set; }
-        
+       
+
     }
 
 }

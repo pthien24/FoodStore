@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 const Topbar = () => {
   return (
     <nav className="navbar navbar-expand-xl">
@@ -21,82 +22,19 @@ const Topbar = () => {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav mx-auto h-100">
             <li className="nav-item">
-              <a className="nav-link" href="index.html">
+              <Link to="/admin/order" className="nav-link">
                 <i className="fas fa-tachometer-alt" /> Dashboard
                 <span className="sr-only">(current)</span>
-              </a>
-            </li>
-            <li className="nav-item dropdown">
-              <a
-                className="nav-link dropdown-toggle"
-                href="#"
-                id="navbarDropdown"
-                role="button"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
-                <i className="far fa-file-alt" />
-                <span>
-                  {" "}
-                  Reports <i className="fas fa-angle-down" />{" "}
-                </span>
-              </a>
-              <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a className="dropdown-item" href="#">
-                  Daily Report
-                </a>
-                <a className="dropdown-item" href="#">
-                  Weekly Report
-                </a>
-                <a className="dropdown-item" href="#">
-                  Yearly Report
-                </a>
-              </div>
+              </Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="products.html">
+              <Link to="/admin/product" className="nav-link">
                 <i className="fas fa-shopping-cart" /> Products
-              </a>
+              </Link>
             </li>
             <li className="nav-item">
               <a className="nav-link" href="accounts.html">
                 <i className="far fa-user" /> Accounts
-              </a>
-            </li>
-            <li className="nav-item dropdown">
-              <a
-                className="nav-link dropdown-toggle"
-                href="#"
-                id="navbarDropdown"
-                role="button"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
-                <i className="fas fa-cog" />
-                <span>
-                  {" "}
-                  Settings <i className="fas fa-angle-down" />{" "}
-                </span>
-              </a>
-              <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a className="dropdown-item" href="#">
-                  Profile
-                </a>
-                <a className="dropdown-item" href="#">
-                  Billing
-                </a>
-                <a className="dropdown-item" href="#">
-                  Customize
-                </a>
-              </div>
-            </li>
-          </ul>
-          <ul className="navbar-nav">
-            <li className="nav-item">
-              <a className="nav-link d-block" href="login.html">
-                Admin, <b>Logout</b>
               </a>
             </li>
           </ul>

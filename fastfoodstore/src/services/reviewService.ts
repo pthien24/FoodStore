@@ -22,6 +22,13 @@ export interface IReview {
     productImage: string;
   };
 }
+
+export interface INewReview {
+  id?: number;
+  title: string;
+  text: string;
+  rating: number;
+}
 const list = () =>
   api.get<ResponseWrapper<IReview[]>>(api.url.Review).then((res) => res.data);
 
@@ -29,8 +36,17 @@ const listWithProduct = (id: number) =>
   api
     .get<ResponseWrapper<IReview[]>>(`${api.url.Review}/Product/${id}`)
     .then((res) => res.data);
-const categoryService = {
+
+const CreateReview = (data: INewReview, UserID: string, ProductID: number) =>
+  api
+    .post<ResponseWrapper<INewReview>>(
+      `${api.url.Review}?reviewerId=${UserID}&pokeId=${ProductID}`,
+      data
+    )
+    .then((res) => res.data);
+const reviewService = {
   list,
   listWithProduct,
+  CreateReview,
 };
-export default categoryService;
+export default reviewService;

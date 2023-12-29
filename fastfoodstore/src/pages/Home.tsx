@@ -15,18 +15,18 @@ const Home = () => {
   const navigate = useNavigate();
 
   const [products, setProducts] = useState<IProduct[]>([]);
-  const [tag] = useState("0");
+  const [category] = useState(1);
   const showProduct = (e: React.MouseEvent, id: number) => {
     e.preventDefault();
     navigate(`../menu/${id}`);
   };
   const fetchProducts = async () => {
-    const res = await productService.listHome(tag);
+    const res = await productService.listwithCategory(category);
     setProducts(res.data);
   };
   useEffect(() => {
     fetchProducts();
-  }, [tag]);
+  }, [category]);
   return (
     <>
       <Carousel>

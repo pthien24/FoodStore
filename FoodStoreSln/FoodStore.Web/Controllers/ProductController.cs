@@ -55,6 +55,12 @@ namespace FoodStore.Web.Controllers
             }
             //var products = _productRepository.GetProductsByCategory(categoryId);
 
+            foreach (var productDTO in productDTOs)
+            {
+                var categoryId = _productRepository.GetCategory(productDTO.Id)?.Id;
+                productDTO.CategoryId = categoryId ?? 0;
+                productDTO.CategoryName = _context.Categories.FirstOrDefault(c => c.Id == categoryId)?.Name;
+            }
 
             var recordcount = productDTOs.Count();
             var totalPages = (int)Math.Ceiling((double)recordcount / pageSize);

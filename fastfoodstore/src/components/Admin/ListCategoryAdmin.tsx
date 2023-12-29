@@ -10,7 +10,7 @@ const ListCategoryAdmin = () => {
   const [categories, setCategories] = useState<ICategory[]>([]);
   const [categoryProducts, setCategoryProducts] = useState<IProduct[]>([]); // Rename this state
   const [newCategory, setNewCategory] = useState<ICategory>({
-    id: 0, // Assuming the ID will be assigned by the server
+    id: 0,
     name: "",
   });
 

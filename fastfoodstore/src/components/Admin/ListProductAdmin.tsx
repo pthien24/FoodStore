@@ -1,12 +1,15 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
-import productService, { IProduct } from "../../services/productService";
+import productService, {
+  IProduct,
+  IProductreponse,
+} from "../../services/productService";
 import { Button, Modal } from "react-bootstrap";
 import Input from "./../Input";
 import categoryService, { ICategory } from "../../services/categoryService";
 import Item from "../Item";
 const ListProductAdmin = () => {
-  const [products, setProducts] = useState<IProduct[]>([]);
+  const [products, setProducts] = useState<IProductreponse[]>([]);
   const [categories, setCategories] = useState<ICategory[]>([]);
   const [catid, setCatid] = useState(0);
   const [categoryID, setCategoryID] = useState(0);
@@ -173,6 +176,13 @@ const ListProductAdmin = () => {
       }
     });
   };
+
+  const truncateDescription = (description: string, maxLength: number) => {
+    if (description.length > maxLength) {
+      return description.substring(0, maxLength) + "...";
+    }
+    return description;
+  };
   useEffect(() => {
     fetchData();
   }, [page, size, sort, order, category, filter]);
@@ -202,9 +212,9 @@ const ListProductAdmin = () => {
                 <th scope="col" onClick={() => handleSort("Price")}>
                   Price {sort === "Price" && (order === "ASC" ? "↑" : "↓")}
                 </th>
-                <th scope="col">EXPIRE DATE</th>
-                <th scope="col">EXPIRE DATE</th>
-                <th scope="col">categoey</th>
+                <th scope="col">image</th>
+                <th scope="col">description</th>
+                <th scope="col">category</th>
                 <th scope="col">&nbsp;</th>
               </tr>
             </thead>
@@ -220,7 +230,11 @@ const ListProductAdmin = () => {
                       alt="item"
                     />
                   </td>
-                  <td>{item.price}</td>
+                  <td>
+                    <p>{truncateDescription(item.description, 40)}</p>
+                  </td>
+                  <td>{item.categoryName}</td>
+
                   <td>
                     <a
                       href="/"
@@ -284,6 +298,7 @@ const ListProductAdmin = () => {
               required={true}
               lastrow={false}
               lableSize={5}
+              row={8}
             />
             <select
               className="form-select"

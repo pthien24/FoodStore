@@ -14,5 +14,7 @@ namespace FoodStore.Web.DTO
         public string? ProductImage { get; set; } = String.Empty;
         [NotMapped]
         public IFormFile? ImageFile { get; set; }
+        public int CategoryId { get; set; } // Add this property
+        public string? CategoryName { get; set; } // Add this property
     }
 }

@@ -9,6 +9,15 @@ export interface IProduct {
   price: number;
   productImage: string;
 }
+export interface IProductreponse {
+  id: number;
+  productName: string;
+  description: string;
+  price: number;
+  productImage: string;
+  categoryId: string;
+  categoryName: string;
+}
 const list = (
   page: number,
   size: number,
@@ -18,7 +27,7 @@ const list = (
   filter: string
 ) =>
   api
-    .get<ResponseWrapper<IProduct[]>>(`${api.url.product}`, {
+    .get<ResponseWrapper<IProductreponse[]>>(`${api.url.product}`, {
       params: {
         page,
         size,
@@ -30,11 +39,11 @@ const list = (
     })
     .then((response) => response);
 
-const listHome = (tag: string) =>
+const listwithCategory = (category: number) =>
   api
-    .get<ResponseWrapper<IProduct[]>>(`${api.url.product}`, {
+    .get<ResponseWrapper<IProductreponse[]>>(`${api.url.product}`, {
       params: {
-        tag,
+        category,
       },
     })
     .then((res) => res.data);
@@ -45,8 +54,8 @@ const categories = () =>
 
 const getproduct = (id: number) =>
   api
-    .get<ResponseWrapper<IProduct>>(`${api.url.product}/${id}`)
-    .then((res) => res);
+    .get<ResponseWrapper<IProductreponse>>(`${api.url.product}/${id}`)
+    .then((res) => res.data);
 
 const get = (id: number) =>
   api
@@ -86,7 +95,7 @@ const remove = (id: number) =>
     .delete<ResponseWrapper<IProduct>>(`${api.url.product}/${id}`)
     .then((res) => res.data);
 const productService = {
-  listHome,
+  listwithCategory,
   list,
   getproduct,
   categories,
